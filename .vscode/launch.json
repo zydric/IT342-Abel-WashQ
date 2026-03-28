@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-WashqApplication<washq>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "edu.cit.abel.washq.WashqApplication",
+            "projectName": "washq",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
