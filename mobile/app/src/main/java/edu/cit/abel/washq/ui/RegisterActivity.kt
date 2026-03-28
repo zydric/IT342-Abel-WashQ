@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -17,7 +16,7 @@ import edu.cit.abel.washq.viewmodel.AuthUiState
 import edu.cit.abel.washq.viewmodel.AuthViewModel
 import edu.cit.abel.washq.viewmodel.AuthViewModelFactory
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseActivity() {
 
     private lateinit var tilFirstName: TextInputLayout
     private lateinit var tilLastName: TextInputLayout
@@ -41,6 +40,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         RetrofitClient.init(applicationContext)
         setContentView(R.layout.activity_register)
+        applyEdgeToEdgeInsets(findViewById(R.id.registerRoot))
 
         bindViews()
         observeRegisterState()

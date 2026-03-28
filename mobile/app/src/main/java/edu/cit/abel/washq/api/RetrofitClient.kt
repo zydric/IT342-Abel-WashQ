@@ -2,6 +2,7 @@ package edu.cit.abel.washq.api
 
 import android.content.Context
 import com.google.gson.Gson
+import edu.cit.abel.washq.util.SecurePrefsManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -23,8 +24,7 @@ object RetrofitClient {
 
         OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val prefs = applicationContext.getSharedPreferences(ApiConfig.PREFS_NAME, Context.MODE_PRIVATE)
-                val token = prefs.getString(ApiConfig.AUTH_TOKEN_KEY, null)
+                val token = SecurePrefsManager.getToken(applicationContext)
 
                 val requestBuilder = chain.request().newBuilder()
                 if (!token.isNullOrBlank()) {

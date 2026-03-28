@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "edu.cit.abel.washq"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -59,4 +59,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+
+    // Encrypted storage for JWT/session data
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 }
