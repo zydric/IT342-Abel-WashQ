@@ -8,6 +8,9 @@ android {
     compileSdk = 34
 
     defaultConfig {
+        val apiBaseUrl = (project.findProperty("API_BASE_URL") as String?)
+            ?: "http://10.0.2.2:8080"
+
         applicationId = "edu.cit.abel.washq"
         minSdk = 26
         targetSdk = 34
@@ -15,6 +18,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
