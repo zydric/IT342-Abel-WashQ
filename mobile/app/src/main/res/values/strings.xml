@@ -1,3 +1,38 @@
 <resources>
-    <string name="app_name">mobile</string>
+    <string name="app_name">WashQ</string>
+
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Log in to manage your laundry reservations</string>
+    <string name="register_title">Create account</string>
+    <string name="register_subtitle">Sign up to book and track laundry services</string>
+
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_address_optional">Address (Optional)</string>
+    <string name="label_contact_optional">Contact Number (Optional)</string>
+
+    <string name="action_login">Log In</string>
+    <string name="action_register">Register</string>
+    <string name="action_create_account">Create Account</string>
+    <string name="action_logout">Logout</string>
+
+    <string name="err_first_name_required">First name is required</string>
+    <string name="err_last_name_required">Last name is required</string>
+    <string name="err_email_required">Email is required</string>
+    <string name="err_email_invalid">Enter a valid email address</string>
+    <string name="err_password_required">Password is required</string>
+    <string name="err_password_min_8">Password must be at least 8 characters</string>
+
+    <string name="msg_registration_success">Registration successful</string>
+    <string name="msg_duplicate_email">Email is already registered</string>
+    <string name="msg_invalid_credentials">Invalid email or password</string>
+    <string name="msg_no_internet">No internet connection. Please check your network and try again.</string>
+    <string name="msg_request_failed">Request failed. Please try again.</string>
+    <string name="msg_unexpected_error">Something went wrong. Please try again.</string>
+
+    <string name="dashboard_welcome">Welcome, %1$s!</string>
+    <string name="dashboard_welcome_placeholder">Welcome, User!</string>
+    <string name="user_default_name">User</string>
 </resources>
