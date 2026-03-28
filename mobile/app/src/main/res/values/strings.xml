@@ -64,4 +64,36 @@
     <string name="dashboard_welcome">Welcome, %1$s!</string>
     <string name="dashboard_welcome_placeholder">Welcome, User!</string>
     <string name="user_default_name">User</string>
+
+    <string name="dashboard_greeting">Good morning, %1$s!</string>
+    <string name="dashboard_greeting_placeholder">Good morning, User!</string>
+    <string name="dashboard_date_placeholder">Saturday, February 28, 2026</string>
+    <string name="dashboard_location">Cebu City, PH</string>
+    <string name="dashboard_weather_condition">Partly Cloudy</string>
+    <string name="dashboard_humidity">78%%</string>
+    <string name="dashboard_weather_advice">Good day for laundry!</string>
+    <string name="dashboard_quick_book_title">Book a Laundry Slot</string>
+    <string name="dashboard_quick_book_subtitle">Reserve in under 2 minutes.</string>
+    <string name="dashboard_services_header">Our Services</string>
+
+    <string name="service_regular_title">Regular Wash</string>
+    <string name="service_regular_desc">Everyday laundry washed and folded neatly.</string>
+    <string name="service_regular_price_duration">₱45.00 / kg · 24 hrs</string>
+
+    <string name="service_dry_title">Dry Cleaning</string>
+    <string name="service_dry_desc">Professional care for delicate fabrics and suits.</string>
+    <string name="service_dry_price_duration">₱95.00 / kg · 48 hrs</string>
+
+    <string name="service_express_title">Express Wash</string>
+    <string name="service_express_desc">Same-day laundry service for urgent needs.</string>
+    <string name="service_express_price_duration">₱75.00 / kg · 6 hrs</string>
+
+    <string name="action_book_now">BOOK NOW</string>
+    <string name="cd_notifications">Notifications</string>
+    <string name="msg_booking_coming_soon">Booking flow is coming in the next step.</string>
+    <string name="msg_tab_coming_soon">This tab is coming soon.</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_bookings">My Bookings</string>
+    <string name="nav_profile">Profile</string>
 </resources>

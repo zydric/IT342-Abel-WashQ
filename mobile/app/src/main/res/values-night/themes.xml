@@ -47,4 +47,9 @@
         <item name="backgroundTint">@color/surface_dark</item>
         <item name="actionTextColorAlpha">1</item>
     </style>
+
+    <style name="WashQ.BottomNavActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">#331D4ED8</item>
+        <item name="shapeAppearance">@style/WashQ.ShapeAppearance.Corner.Small</item>
+    </style>
 </resources>
