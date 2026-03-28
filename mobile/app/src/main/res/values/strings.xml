@@ -1,21 +1,39 @@
 <resources>
     <string name="app_name">WashQ</string>
+    <string name="logo_text">WashQ</string>
+    <string name="login_hero_tagline">Book your laundry slot. Anytime.</string>
 
     <string name="login_title">Welcome back</string>
     <string name="login_subtitle">Log in to manage your laundry reservations</string>
-    <string name="register_title">Create account</string>
-    <string name="register_subtitle">Sign up to book and track laundry services</string>
+    <string name="register_title">Create your account</string>
+    <string name="register_subtitle">Join WashQ and start booking today.</string>
 
     <string name="label_first_name">First Name</string>
     <string name="label_last_name">Last Name</string>
     <string name="label_email">Email</string>
+    <string name="label_email_address">Email address</string>
     <string name="label_password">Password</string>
     <string name="label_address_optional">Address (Optional)</string>
     <string name="label_contact_optional">Contact Number (Optional)</string>
 
+    <string name="hint_email">you@example.com</string>
+    <string name="hint_email_short">you@example.co</string>
+    <string name="hint_password">••••••••</string>
+    <string name="hint_first_name">Juan</string>
+    <string name="hint_last_name">Dela Cru</string>
+    <string name="hint_address">Your address</string>
+    <string name="hint_contact">+63 9XX XXX XXXX</string>
+
+    <string name="help_password_min_8">Minimum 8 characters</string>
+
     <string name="action_login">Log In</string>
     <string name="action_register">Register</string>
     <string name="action_create_account">Create Account</string>
+    <string name="action_sign_in">SIGN IN</string>
+    <string name="action_sign_in_google">Sign in with Google</string>
+    <string name="action_sign_up_google">Sign up with Google</string>
+    <string name="action_forgot_password">Forgot password?</string>
+    <string name="action_back">Back</string>
     <string name="action_logout">Logout</string>
 
     <string name="err_first_name_required">First name is required</string>
@@ -24,13 +42,24 @@
     <string name="err_email_invalid">Enter a valid email address</string>
     <string name="err_password_required">Password is required</string>
     <string name="err_password_min_8">Password must be at least 8 characters</string>
+    <string name="err_invalid_credentials_inline">Invalid email or password.</string>
 
     <string name="msg_registration_success">Registration successful</string>
-    <string name="msg_duplicate_email">Email is already registered</string>
+    <string name="msg_account_created_email">Account created! Check your email.</string>
+    <string name="msg_duplicate_email">This email is already registered.</string>
     <string name="msg_invalid_credentials">Invalid email or password</string>
     <string name="msg_no_internet">No internet connection. Please check your network and try again.</string>
     <string name="msg_request_failed">Request failed. Please try again.</string>
     <string name="msg_unexpected_error">Something went wrong. Please try again.</string>
+    <string name="msg_feature_coming_soon">This feature is coming soon.</string>
+
+    <string name="text_or">or</string>
+    <string name="text_no_account_register">Don\'t have an account? Register</string>
+    <string name="text_have_account_sign_in">Already have an account? Sign in</string>
+    <string name="text_register_word">Register</string>
+    <string name="text_sign_in_word">Sign in</string>
+    <string name="action_dismiss">DISMISS</string>
+    <string name="action_sign_in_caps">SIGN IN</string>
 
     <string name="dashboard_welcome">Welcome, %1$s!</string>
     <string name="dashboard_welcome_placeholder">Welcome, User!</string>
