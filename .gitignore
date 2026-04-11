@@ -1,3 +1,8 @@
-.idea
+.idea/
+
+# Environment files — never commit secrets
 .env
+backend/.env
+
+# Gradle build cache
 mobile/.gradle/
