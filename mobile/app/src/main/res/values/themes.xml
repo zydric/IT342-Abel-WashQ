@@ -13,7 +13,9 @@
         <item name="colorError">@color/error</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/surface_dark</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
         <item name="materialButtonStyle">@style/WashQ.MaterialButton</item>
@@ -25,7 +27,7 @@
 
     <style name="WashQ.MaterialButton" parent="Widget.Material3.Button">
         <item name="android:minHeight">@dimen/touch_target_min</item>
-        <item name="cornerRadius">@dimen/button_corner_radius</item>
+        <item name="cornerRadius">28dp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:letterSpacing">0.09</item>
     </style>
@@ -40,7 +42,12 @@
 
     <style name="WashQ.ShapeAppearance.Corner.Small" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/button_corner_radius</item>
+        <item name="cornerSize">28dp</item>
+    </style>
+
+    <style name="WashQ.ShapeAppearance.Corner.Medium" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item>
     </style>
 
     <style name="WashQ.Snackbar" parent="Widget.Material3.Snackbar">
@@ -48,8 +55,7 @@
         <item name="actionTextColorAlpha">1</item>
     </style>
 
-    <style name="WashQ.BottomNavActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">#331D4ED8</item>
-        <item name="shapeAppearance">@style/WashQ.ShapeAppearance.Corner.Small</item>
+    <style name="TransparentIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
     </style>
 </resources>
