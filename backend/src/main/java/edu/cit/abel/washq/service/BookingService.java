@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -43,8 +45,8 @@ public class BookingService {
         TimeSlot timeSlot = timeSlotRepository.findById(request.getTimeSlotId())
                 .orElseThrow(() -> new IllegalArgumentException("Time Slot not found"));
 
-        // Validate double-booking (SLOT-002)
-        if (bookingRepository.existsByUserAndTimeSlot(user, timeSlot)) {
+        // Validate double-booking (SLOT-002) - Ignore CANCELLED bookings so users can re-book
+        if (bookingRepository.existsByUserAndTimeSlotAndStatusNot(user, timeSlot, "CANCELLED")) {
             throw new BookingException("SLOT-002", "User already has a booking in this time slot");
         }
 
@@ -73,6 +75,52 @@ public class BookingService {
         booking = bookingRepository.save(booking);
 
         // Map to ResponseDTO
+        BookingResponseDTO response = mapToDTO(booking);
+        
+        // Mock PayMongo URL for now, real integration usually happens via external API 
+        response.setPaymentUrl("https://paymongo.com/checkout/mock_url_" + booking.getId());
+
+        return response;
+    }
+
+    public List<BookingResponseDTO> getUserBookings(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        
+        List<Booking> bookings = bookingRepository.findByUserOrderByCreatedAtDesc(user);
+        
+        return bookings.stream().map(this::mapToDTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void cancelBooking(String userEmail, Long bookingId) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+                
+        if (!booking.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Unauthorized to cancel this booking");
+        }
+        
+        if (!"PENDING".equalsIgnoreCase(booking.getStatus())) {
+            throw new IllegalArgumentException("Only PENDING bookings can be cancelled");
+        }
+        
+        booking.setStatus("CANCELLED");
+        
+        // Release slot count
+        TimeSlot slot = booking.getTimeSlot();
+        if (slot.getCurrentBookingCount() > 0) {
+            slot.setCurrentBookingCount(slot.getCurrentBookingCount() - 1);
+            timeSlotRepository.save(slot);
+        }
+        
+        bookingRepository.save(booking);
+    }
+    
+    private BookingResponseDTO mapToDTO(Booking booking) {
         BookingResponseDTO response = new BookingResponseDTO();
         response.setId(booking.getId());
         response.setEstimatedWeightKg(booking.getEstimatedWeightKg());
@@ -82,21 +130,23 @@ public class BookingService {
         response.setCreatedAt(booking.getCreatedAt());
         response.setUpdatedAt(booking.getUpdatedAt());
         
-        // Mock PayMongo URL for now, real integration usually happens via external API 
-        response.setPaymentUrl("https://paymongo.com/checkout/mock_url_" + booking.getId());
-
-        // Partial DTO mapping for relationships to keep JSON clean
-        response.setService(new ServiceDTO(
-                service.getId(), service.getName(), service.getDescription(), 
-                service.getPricePerKg(), service.getEstimatedDurationHours(), service.getIsActive()
-        ));
+        edu.cit.abel.washq.entity.Service service = booking.getService();
+        if (service != null) {
+            response.setService(new ServiceDTO(
+                    service.getId(), service.getName(), service.getDescription(), 
+                    service.getPricePerKg(), service.getEstimatedDurationHours(), service.getIsActive()
+            ));
+        }
         
-        response.setTimeSlot(new TimeSlotDTO(
-                timeSlot.getId(), timeSlot.getSlotDate().format(DATE_FMT), 
-                timeSlot.getStartTime().format(TIME_FMT), timeSlot.getEndTime().format(TIME_FMT),
-                timeSlot.getMaxCapacity(), timeSlot.getCurrentBookingCount(), timeSlot.getIsAvailable()
-        ));
-
+        TimeSlot timeSlot = booking.getTimeSlot();
+        if (timeSlot != null) {
+            response.setTimeSlot(new TimeSlotDTO(
+                    timeSlot.getId(), timeSlot.getSlotDate().format(DATE_FMT), 
+                    timeSlot.getStartTime().format(TIME_FMT), timeSlot.getEndTime().format(TIME_FMT),
+                    timeSlot.getMaxCapacity(), timeSlot.getCurrentBookingCount(), timeSlot.getIsAvailable()
+            ));
+        }
+        
         return response;
     }
 }
