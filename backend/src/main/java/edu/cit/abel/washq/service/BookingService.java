@@ -92,6 +92,47 @@ public class BookingService {
         return bookings.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
+    public List<BookingResponseDTO> getAllBookings() {
+        return bookingRepository.findAllByOrderByCreatedAtDesc()
+                .stream().map(this::mapToDTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public BookingResponseDTO updateBookingStatus(Long bookingId, String newStatus, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        
+        if (!"STAFF".equals(user.getRole()) && !"ADMIN".equals(user.getRole())) {
+            throw new IllegalArgumentException("Unauthorized: Only STAFF or ADMIN can update booking status");
+        }
+
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
+
+        if (!isValidTransition(booking.getStatus(), newStatus)) {
+            throw new IllegalArgumentException("Invalid status transition from " + booking.getStatus() + " to " + newStatus);
+        }
+
+        booking.setStatus(newStatus);
+        booking = bookingRepository.save(booking);
+        
+        // Mock sending email
+        if ("READY_FOR_PICKUP".equals(newStatus)) {
+            System.out.println("Email Sent: Your order is ready for pickup! to " + booking.getUser().getEmail());
+        }
+
+        return mapToDTO(booking);
+    }
+    
+    private boolean isValidTransition(String current, String target) {
+        if ("CANCELLED".equals(current) || "COMPLETED".equals(current)) return false;
+        if ("PENDING".equals(current)) return "RECEIVED".equals(target) || "CANCELLED".equals(target);
+        if ("RECEIVED".equals(current)) return "IN_PROGRESS".equals(target);
+        if ("IN_PROGRESS".equals(current)) return "READY_FOR_PICKUP".equals(target);
+        if ("READY_FOR_PICKUP".equals(current)) return "COMPLETED".equals(target);
+        return false;
+    }
+
     @Transactional
     public void cancelBooking(String userEmail, Long bookingId) {
         User user = userRepository.findByEmail(userEmail)

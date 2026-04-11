@@ -47,10 +47,45 @@ public class BookingController {
      * Retrieve all bookings for the authenticated customer.
      */
     @GetMapping
-    public ResponseEntity<ApiResponse<List<BookingResponseDTO>>> getMyBookings(Authentication authentication) {
+    public ResponseEntity<ApiResponse<List<BookingResponseDTO>>> getBookings(Authentication authentication) {
         String email = authentication.getName();
-        List<BookingResponseDTO> bookings = bookingService.getUserBookings(email);
+        boolean isStaffOrAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_STAFF") || a.getAuthority().equals("ROLE_ADMIN"));
+        
+        List<BookingResponseDTO> bookings;
+        if (isStaffOrAdmin) {
+            bookings = bookingService.getAllBookings();
+        } else {
+            bookings = bookingService.getUserBookings(email);
+        }
+        
         return ResponseEntity.ok(ApiResponse.success(bookings));
+    }
+
+    /**
+     * PATCH /api/v1/bookings/{id}/status
+     * Update booking status (STAFF/ADMIN only).
+     */
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ApiResponse<BookingResponseDTO>> updateBookingStatus(
+            Authentication authentication,
+            @PathVariable Long id,
+            @RequestBody java.util.Map<String, String> body) {
+        
+        String email = authentication.getName();
+        String status = body.get("status");
+        
+        if (status == null || status.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("BAD_REQUEST", "Status is required", null));
+        }
+
+        try {
+            BookingResponseDTO response = bookingService.updateBookingStatus(id, status, email);
+            return ResponseEntity.ok(ApiResponse.success(response));
+        } catch (IllegalArgumentException e) {
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.error("BAD_REQUEST", e.getMessage(), null));
+        }
     }
 
     /**

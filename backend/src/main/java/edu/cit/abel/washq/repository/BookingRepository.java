@@ -19,4 +19,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
      * Retrieves all bookings for a user ordered by newest first.
      */
     List<Booking> findByUserOrderByCreatedAtDesc(User user);
+
+    /**
+     * Retrieves all bookings globally ordered by newest first (for Staff/Admin).
+     */
+    List<Booking> findAllByOrderByCreatedAtDesc();
 }

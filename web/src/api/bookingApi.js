@@ -24,3 +24,11 @@ export const getBookings = async () => {
 export const cancelBooking = async (id) => {
   return await API.delete(`/api/v1/bookings/${id}`);
 };
+
+/**
+ * Updates a booking status (STAFF/ADMIN only).
+ * PATCH /api/v1/bookings/{id}/status
+ */
+export const updateBookingStatus = async (id, status) => {
+  return await API.patch(`/api/v1/bookings/${id}/status`, { status });
+};

@@ -7,6 +7,7 @@ import BookingStep1Page from '../pages/BookingStep1Page';
 import BookingStep2Page from '../pages/BookingStep2Page';
 import BookingStep3Page from '../pages/BookingStep3Page';
 import OrderHistoryPage from '../pages/OrderHistoryPage';
+import StaffDashboardPage from '../pages/StaffDashboardPage';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function AppRoutes() {
@@ -75,6 +76,24 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <OrderHistoryPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Staff / Admin Dashboard */}
+      <Route
+        path="/staff/dashboard"
+        element={
+          <ProtectedRoute>
+            <StaffDashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedRoute>
+            <StaffDashboardPage />
           </ProtectedRoute>
         }
       />
