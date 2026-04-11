@@ -54,7 +54,20 @@ class RegisterActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         RetrofitClient.init(applicationContext)
         setContentView(R.layout.activity_register)
-        applyEdgeToEdgeInsets(findViewById(R.id.registerRoot))
+        
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.registerRoot)) { view, insets ->
+            val systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+            
+            val btnBack = findViewById<View>(R.id.btnBack)
+            val params = btnBack.layoutParams as androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
+            params.topMargin = systemBars.top + (48 * view.resources.displayMetrics.density).toInt() // 48dp base margin from XML plus status bar
+            btnBack.layoutParams = params
+            
+            val scrollView = view as? android.view.ViewGroup
+            val nestedScroll = scrollView?.getChildAt(3)
+            nestedScroll?.setPadding(0, 0, 0, systemBars.bottom)
+            insets
+        }
 
         bindViews()
         styleSignInLink()

@@ -42,7 +42,20 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         RetrofitClient.init(applicationContext)
         setContentView(R.layout.activity_login)
-        applyEdgeToEdgeInsets(findViewById(R.id.loginRoot))
+        
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.loginRoot)) { view, insets ->
+            val systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+            
+            val icon = findViewById<View>(R.id.ivHeroIcon)
+            val params = icon.layoutParams as androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
+            params.topMargin = systemBars.top + (72 * view.resources.displayMetrics.density).toInt()
+            icon.layoutParams = params
+            
+            val scrollView = view as? android.view.ViewGroup
+            val nestedScroll = scrollView?.getChildAt(3) // Index 3 is the NestedScrollView based on our XML structure
+            nestedScroll?.setPadding(0, 0, 0, systemBars.bottom)
+            insets
+        }
 
         bindViews()
         styleRegisterLink()
