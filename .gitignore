@@ -6,3 +6,9 @@ backend/.env
 
 # Gradle build cache
 mobile/.gradle/
+
+# Uploaded user files (stored locally on server)
+backend/uploads/
+
+# Scratch scripts
+*.py

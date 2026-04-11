@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getServices } from '../api/serviceApi';
+import Navbar from '../components/Navbar';
 
 // ─── Service icon map ────────────────────────────────────────────────────────
 // Maps service names (case-insensitive, partial match) → SVG icon paths
@@ -160,83 +161,6 @@ function ServiceCard({ service, onBook }) {
         Book Now
       </button>
     </article>
-  );
-}
-
-// ─── Navbar ───────────────────────────────────────────────────────────────────
-function Navbar() {
-  const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const initials = [user.firstName?.[0], user.lastName?.[0]].filter(Boolean).join('').toUpperCase() || 'U';
-
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
-
-  return (
-    <nav className="h-16 bg-primary-dark sticky top-0 z-navbar shadow-elevated">
-      <div className="max-w-content mx-auto h-full flex items-center justify-between px-6">
-        {/* Logo */}
-        <Link to="/dashboard" className="text-white font-bold text-[20px] tracking-tight select-none hover:opacity-90 transition-opacity">
-          WashQ
-        </Link>
-
-        {/* Nav links */}
-        <div className="hidden md:flex items-center gap-8">
-          {[
-            { label: 'Dashboard', to: '/dashboard' },
-            { label: 'Services', to: '/services' },
-            { label: 'My Bookings', to: '/bookings' },
-          ].map(({ label, to }) => (
-            <Link
-              key={to}
-              to={to}
-              className="text-white/70 hover:text-white text-body font-semibold transition-colors duration-150 relative group"
-            >
-              {label}
-              <span className="absolute -bottom-0.5 left-0 w-0 group-hover:w-full h-0.5 bg-white/60 transition-all duration-200" />
-            </Link>
-          ))}
-        </div>
-
-        {/* Avatar dropdown */}
-        <div className="relative">
-          <button
-            id="avatar-menu-btn"
-            onClick={() => setDropdownOpen((o) => !o)}
-            className="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white text-caption font-bold hover:ring-2 hover:ring-white/40 transition-all"
-            aria-expanded={dropdownOpen}
-            aria-haspopup="true"
-          >
-            {initials}
-          </button>
-          {dropdownOpen && (
-            <>
-              <div className="fixed inset-0 z-0" onClick={() => setDropdownOpen(false)} />
-              <div className="absolute right-0 top-11 w-48 bg-white rounded-card shadow-elevated z-10 py-1 overflow-hidden">
-                <Link to="/profile" onClick={() => setDropdownOpen(false)}
-                  className="block px-4 py-2.5 text-body text-neutral-700 hover:bg-neutral-50 transition-colors">
-                  My Profile
-                </Link>
-                <Link to="/bookings" onClick={() => setDropdownOpen(false)}
-                  className="block px-4 py-2.5 text-body text-neutral-700 hover:bg-neutral-50 transition-colors">
-                  My Bookings
-                </Link>
-                <hr className="border-neutral-100 my-1" />
-                <button onClick={handleLogout}
-                  className="w-full text-left px-4 py-2.5 text-body text-error hover:bg-neutral-50 transition-colors font-medium">
-                  Sign Out
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </nav>
   );
 }
 

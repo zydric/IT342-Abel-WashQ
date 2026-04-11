@@ -9,6 +9,7 @@ import BookingStep3Page from '../pages/BookingStep3Page';
 import OrderHistoryPage from '../pages/OrderHistoryPage';
 import StaffDashboardPage from '../pages/StaffDashboardPage';
 import AdminServicesPage from '../pages/AdminServicesPage';
+import ProfilePage from '../pages/ProfilePage';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function AppRoutes() {
@@ -19,6 +20,14 @@ export default function AppRoutes() {
       <Route path="/register" element={<RegisterPage />} />
 
       {/* Protected routes */}
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/dashboard"
         element={

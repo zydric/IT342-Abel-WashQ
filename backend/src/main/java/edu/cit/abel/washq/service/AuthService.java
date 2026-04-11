@@ -52,7 +52,10 @@ public class AuthService {
                 savedUser.getEmail(),
                 savedUser.getFirstName(),
                 savedUser.getLastName(),
-                savedUser.getRole()
+                savedUser.getAddress(),
+                savedUser.getContactNumber(),
+                savedUser.getRole(),
+                savedUser.getProfilePictureUrl()
         );
 
         return new AuthResponse(userDTO, token);
@@ -77,7 +80,10 @@ public class AuthService {
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getRole()
+                user.getAddress(),
+                user.getContactNumber(),
+                user.getRole(),
+                user.getProfilePictureUrl()
         );
 
         return new AuthResponse(userDTO, token);
