@@ -4,6 +4,7 @@ import RegisterPage from '../pages/RegisterPage';
 import DashboardPage from '../pages/DashboardPage';
 import ServiceCatalogPage from '../pages/ServiceCatalogPage';
 import BookingStep1Page from '../pages/BookingStep1Page';
+import BookingStep2Page from '../pages/BookingStep2Page';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function AppRoutes() {
@@ -36,6 +37,15 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <BookingStep1Page />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/book/step2"
+        element={
+          <ProtectedRoute>
+            <BookingStep2Page />
           </ProtectedRoute>
         }
       />
