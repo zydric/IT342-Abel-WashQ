@@ -102,7 +102,10 @@ public class BookingService {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         
-        if (!"STAFF".equals(user.getRole()) && !"ADMIN".equals(user.getRole())) {
+        boolean isStaffOrAdmin = "STAFF".equalsIgnoreCase(user.getRole()) || "ADMIN".equalsIgnoreCase(user.getRole());
+        
+        if (!isStaffOrAdmin) {
+            System.err.println("Unauthorized status update attempt by " + userEmail + " with role " + user.getRole());
             throw new IllegalArgumentException("Unauthorized: Only STAFF or ADMIN can update booking status");
         }
 
@@ -110,7 +113,8 @@ public class BookingService {
                 .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
 
         if (!isValidTransition(booking.getStatus(), newStatus)) {
-            throw new IllegalArgumentException("Invalid status transition from " + booking.getStatus() + " to " + newStatus);
+            System.err.println("Invalid transition: #" + bookingId + " (" + booking.getStatus() + " -> " + newStatus + ")");
+            throw new IllegalArgumentException("Cannot move booking #" + bookingId + " from " + booking.getStatus() + " to " + newStatus);
         }
 
         booking.setStatus(newStatus);
@@ -141,7 +145,9 @@ public class BookingService {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new IllegalArgumentException("Booking not found"));
                 
-        if (!booking.getUser().getId().equals(user.getId())) {
+        boolean isStaffOrAdmin = "STAFF".equalsIgnoreCase(user.getRole()) || "ADMIN".equalsIgnoreCase(user.getRole());
+        
+        if (!booking.getUser().getId().equals(user.getId()) && !isStaffOrAdmin) {
             throw new IllegalArgumentException("Unauthorized to cancel this booking");
         }
         

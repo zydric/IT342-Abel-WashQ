@@ -85,6 +85,10 @@ public class BookingController {
         } catch (IllegalArgumentException e) {
              return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(ApiResponse.error("BAD_REQUEST", e.getMessage(), null));
+        } catch (Exception e) {
+             e.printStackTrace();
+             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error("SERVER_ERROR", "Internal error: " + e.getMessage(), null));
         }
     }
 
