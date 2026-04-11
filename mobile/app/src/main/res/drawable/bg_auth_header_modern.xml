@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="400dp"
+    android:height="360dp"
+    android:viewportWidth="400"
+    android:viewportHeight="360">
+
+    <!-- Base Gradient -->
+    <path
+        android:pathData="M0,0 h400 v360 h-400 z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="45"
+                android:endColor="@color/accent"
+                android:startColor="@color/primary_dark"
+                android:type="linear" />
+        </aapt:attr>
+    </path>
+
+    <!-- Abstract Blob 1 -->
+    <path
+        android:pathData="M 0,260 C 150,340 250,180 400,300 V 360 H 0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="0"
+                android:endColor="#33FFFFFF"
+                android:startColor="#11FFFFFF"
+                android:type="linear" />
+        </aapt:attr>
+    </path>
+
+    <!-- Abstract Blob 2 -->
+    <path
+        android:pathData="M -50,300 C 120,240 280,380 450,260 V 360 H -50 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="90"
+                android:endColor="#44FFFFFF"
+                android:startColor="#00FFFFFF"
+                android:type="linear" />
+        </aapt:attr>
+    </path>
+
+</vector>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Washing Machine Body -->
+    <path
+        android:pathData="M30,10 h60 a16,16 0 0 1 16,16 v68 a16,16 0 0 1 -16,16 h-60 a16,16 0 0 1 -16,-16 v-68 a16,16 0 0 1 16,-16 z"
+        android:fillColor="#E2E8F0" />
+    
+    <!-- Top Panel Contour -->
+    <path
+        android:pathData="M16,30 L104,30"
+        android:strokeWidth="2"
+        android:strokeColor="#CBD5E1" />
+
+    <!-- Button 1 -->
+    <path
+        android:pathData="M80,20 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0"
+        android:fillColor="#94A3B8" />
+
+    <!-- Button 2 -->
+    <path
+        android:pathData="M66,20 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0"
+        android:fillColor="#94A3B8" />
+
+    <!-- LCD Display -->
+    <path
+        android:pathData="M30,16 h20 a2,2 0 0 1 2,2 v4 a2,2 0 0 1 -2,2 h-20 a2,2 0 0 1 -2,-2 v-4 a2,2 0 0 1 2,-2 z"
+        android:fillColor="#0EA5E9" />
+
+    <!-- Door Outer Rim -->
+    <path
+        android:pathData="M60,68 m-32,0 a32,32 0 1,1 64,0 a32,32 0 1,1 -64,0"
+        android:strokeWidth="6"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="#CBD5E1" />
+
+    <!-- Door Glass -->
+    <path
+        android:pathData="M60,68 m-24,0 a24,24 0 1,1 48,0 a24,24 0 1,1 -48,0"
+        android:fillColor="#38BDF8" />
+
+    <!-- Water Detail -->
+    <path
+        android:pathData="M36,68 Q48,56 60,68 T84,68 A24,24 0 0,1 36,68 Z"
+        android:fillColor="#0284C7" />
+
+    <!-- Bubbles -->
+    <path
+        android:pathData="M50,56 a4,4 0 1,1 8,0 a4,4 0 1,1 -8,0 M70,50 a3,3 0 1,1 6,0 a3,3 0 1,1 -6,0 M62,46 a2,2 0 1,1 4,0 a2,2 0 1,1 -4,0"
+        android:fillColor="#FFFFFF" />
+        
+    <!-- Reflection on Door -->
+    <path
+        android:pathData="M44,52 A20,20 0 0,1 56,46"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeColor="#CCFFFFFF" />
+
+</vector>

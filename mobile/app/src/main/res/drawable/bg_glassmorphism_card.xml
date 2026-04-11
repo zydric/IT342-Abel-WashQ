@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow / Base Layer (Simulated) -->
+    <item android:bottom="4dp" android:right="2dp" android:top="2dp" android:left="2dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="32dp" />
+            <solid android:color="#0A000000" />
+        </shape>
+    </item>
+
+    <!-- Main Card Body (Solid White for text readability, with very subtle stroke to look like glass edge) -->
+    <item android:bottom="6dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="32dp" />
+            <solid android:color="@color/surface" />
+            <stroke android:width="1dp" android:color="#E2E8F0" />
+            <padding android:left="24dp" android:top="32dp" android:right="24dp" android:bottom="32dp" />
+        </shape>
+    </item>
+</layer-list>
