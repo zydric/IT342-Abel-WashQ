@@ -96,8 +96,8 @@ class DashboardActivity : BaseActivity() {
                 systemBars.bottom
             )
 
-            val navHeightPx = (56 * resources.displayMetrics.density).toInt()
-            val extraBottomPx = (16 * resources.displayMetrics.density).toInt()
+            val navHeightPx = (64 * resources.displayMetrics.density).toInt()
+            val extraBottomPx = (16 * resources.displayMetrics.density).toInt() // breathing 16
             scroll.setPadding(
                 scroll.paddingLeft,
                 scroll.paddingTop,

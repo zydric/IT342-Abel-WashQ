@@ -10,8 +10,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/dashboardAppBar"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="@color/primary_dark"
+        android:layout_height="220dp"
+        android:background="@drawable/bg_dashboard_header"
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
@@ -43,7 +43,8 @@
                     <FrameLayout
                         android:id="@+id/notificationContainer"
                         android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
                         android:foreground="?attr/selectableItemBackgroundBorderless">
 
                         <ImageView
@@ -80,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="@string/dashboard_date_placeholder"
-                    android:textColor="#93C5FD"
+                    android:textColor="@color/surface"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -88,7 +89,7 @@
                 android:id="@+id/dashboardToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="@color/primary_dark"
+                android:background="@android:color/transparent"
                 android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
                 app:layout_collapseMode="pin"
                 app:navigationIconTint="@color/surface"
@@ -120,11 +121,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:cardBackgroundColor="@color/surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp"
-                app:strokeColor="@color/surface_variant"
-                app:strokeWidth="1dp">
+                app:cardBackgroundColor="#E6FFFFFF"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="1.5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -226,13 +227,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="28dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_quick_book_gradient"
+                    android:background="@drawable/bg_quick_book_modern"
                     android:orientation="vertical"
                     android:padding="20dp">
 
@@ -269,29 +270,44 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/tvServicesHeader"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/dashboard_services_header"
-                android:textColor="@color/text_primary"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:background="@drawable/bg_services_container"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <LinearLayout
+                <TextView
+                    android:id="@+id/tvServicesHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dashboard_services_header"
+                    android:textColor="@color/text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRegularWash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:background="@color/surface"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:minHeight="88dp"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                app:cardBackgroundColor="#E6FFFFFF"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="1.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="88dp"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
                 <FrameLayout
                     android:layout_width="40dp"
@@ -345,21 +361,30 @@
                     android:layout_height="20dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_chevron_right" />
-            </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardDryCleaning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@color/surface"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:minHeight="88dp"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                app:cardBackgroundColor="#E6FFFFFF"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="1.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="88dp"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
                 <FrameLayout
                     android:layout_width="40dp"
@@ -413,22 +438,31 @@
                     android:layout_height="20dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_chevron_right" />
-            </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardExpressWash"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@color/surface"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:minHeight="88dp"
-                android:orientation="horizontal"
-                android:padding="16dp">
+                app:cardBackgroundColor="#E6FFFFFF"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="1.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="88dp"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
                 <FrameLayout
                     android:layout_width="40dp"
@@ -482,6 +516,9 @@
                     android:layout_height="20dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_chevron_right" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -491,14 +528,14 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="64dp"
         android:layout_gravity="bottom"
-        android:background="@color/surface_dark"
-        android:elevation="10dp"
-        app:itemActiveIndicatorStyle="@style/WashQ.BottomNavActiveIndicator"
+        android:background="@color/surface"
+        android:elevation="16dp"
         app:itemIconTint="@color/bottom_nav_colors"
-        app:itemRippleColor="@color/primary_light"
         app:itemTextColor="@color/bottom_nav_colors"
+        app:itemActiveIndicatorStyle="@style/TransparentIndicator"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_customer_menu" />
 
