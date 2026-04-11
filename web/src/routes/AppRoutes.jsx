@@ -3,6 +3,7 @@ import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import DashboardPage from '../pages/DashboardPage';
 import ServiceCatalogPage from '../pages/ServiceCatalogPage';
+import BookingStep1Page from '../pages/BookingStep1Page';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function AppRoutes() {
@@ -26,6 +27,15 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <ServiceCatalogPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/book/step1"
+        element={
+          <ProtectedRoute>
+            <BookingStep1Page />
           </ProtectedRoute>
         }
       />
