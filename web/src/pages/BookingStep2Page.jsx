@@ -229,7 +229,7 @@ export default function BookingStep2Page() {
   const handleContinue = () => {
     if (!selectedSlot) return;
     navigate(`/book/step3?serviceId=${serviceId}&slotId=${selectedSlot.id}`, {
-      state: { serviceId, slotId: selectedSlot.id, weight }
+      state: { service, slot: selectedSlot, weight }
     });
   };
 
