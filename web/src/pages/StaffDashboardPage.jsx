@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import StatusTimeline from '../components/StatusTimeline';
 import { getBookings, updateBookingStatus, cancelBooking } from '../api/bookingApi';
 import BookingStatusDropdown from '../components/BookingStatusDropdown';
 
@@ -96,23 +97,27 @@ function BookingTableRow({ booking, onUpdateStatus, onCancelBooking, isAdmin }) 
             {expanded && (
                 <tr className="bg-neutral-50/50">
                     <td colSpan={8} className="px-6 py-4 border-b border-neutral-200">
-                        <div className="text-sm grid grid-cols-1 sm:grid-cols-3 gap-6 animate-in fade-in duration-200">
+                        <div className="text-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-200 mb-6 mt-2">
                             <div>
-                                <p className="font-semibold text-neutral-400 uppercase text-xs tracking-wider mb-1">Customer Info</p>
-                                <p className="text-neutral-900">{booking.user?.email}</p>
-                                <p className="text-neutral-600">{booking.user?.contactNumber || 'No number'}</p>
+                                <p className="font-semibold text-neutral-400 uppercase text-xs tracking-wider mb-2">Customer Info</p>
+                                <p className="text-neutral-900 font-medium">{booking.user?.firstName} {booking.user?.lastName}</p>
+                                <p className="text-neutral-600">{booking.user?.email}</p>
+                                <p className="text-neutral-600">{booking.user?.contactNumber || 'No contact number'}</p>
                             </div>
-                            <div>
-                                <p className="font-semibold text-neutral-400 uppercase text-xs tracking-wider mb-1">Booking Timeline</p>
+                            <div className="lg:col-span-1">
+                                <p className="font-semibold text-neutral-400 uppercase text-xs tracking-wider mb-2">Order Details</p>
                                 <p className="text-neutral-900">Created: {formatDateTime(booking.createdAt)}</p>
-                                <p className="text-neutral-600">Last Updated: {formatDateTime(booking.updatedAt)}</p>
+                                <p className="text-neutral-600">Total: ₱{booking.totalAmount?.toFixed(2)} ({booking.estimatedWeightKg} kg)</p>
                             </div>
                             <div>
-                                <p className="font-semibold text-neutral-400 uppercase text-xs tracking-wider mb-1">Special Instructions</p>
+                                <p className="font-semibold text-neutral-400 uppercase text-xs tracking-wider mb-2">Special Instructions</p>
                                 <p className="italic text-neutral-700">
-                                    {booking.specialInstructions ? `"${booking.specialInstructions}"` : 'None.'}
+                                    {booking.specialInstructions ? `"${booking.specialInstructions}"` : 'None provided.'}
                                 </p>
                             </div>
+                        </div>
+                        <div className="pb-4">
+                            <StatusTimeline currentStatus={optimisticStatus} />
                         </div>
                     </td>
                 </tr>
@@ -165,13 +170,18 @@ export default function StaffDashboardPage() {
   };
 
   const handleUpdateStatus = async (id, newStatus) => {
-      await updateBookingStatus(id, newStatus);
-      showToast(`Status updated to ${STATUS_DISPLAY_NAMES[newStatus]}`);
-      // Background full refresh
-      getBookings().then(res => {
-          const data = Array.isArray(res.data) ? res.data : (res.data?.data || []);
-          setBookings(data);
-      });
+      try {
+          await updateBookingStatus(id, newStatus);
+          showToast(`Status updated to ${STATUS_DISPLAY_NAMES[newStatus]}`);
+          // Background full refresh
+          getBookings().then(res => {
+              const data = Array.isArray(res.data) ? res.data : (res.data?.data || []);
+              setBookings(data);
+          });
+      } catch (err) {
+          showToast(err.response?.data?.error?.message || "Failed to update status", "error");
+          throw err;
+      }
   };
 
   const handleCancelBooking = async (booking) => {
@@ -239,6 +249,16 @@ export default function StaffDashboardPage() {
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                   Dashboard
               </Link>
+              <button disabled className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 font-medium transition-colors cursor-not-allowed">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  Bookings
+              </button>
+              {isAdmin && (
+                  <button disabled className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 font-medium transition-colors cursor-not-allowed">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /></svg>
+                      Services
+                  </button>
+              )}
           </nav>
 
           <div className="p-4 bg-white/5 border-t border-white/10 mt-auto">
@@ -264,7 +284,7 @@ export default function StaffDashboardPage() {
       </aside>
 
       {/* ── Main Dashboard Area ── */}
-      <main className="flex-1 w-full max-w-[1280px] p-4 md:p-8 overflow-y-auto">
+      <main className="flex-1 w-full px-4 py-8 md:px-8 overflow-y-auto">
           
           <header className="mb-8 flex items-center justify-between">
               <div>

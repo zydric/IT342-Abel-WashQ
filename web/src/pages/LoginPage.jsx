@@ -79,9 +79,15 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const { data } = await loginUser(email, password);
+      const user = data.data.user;
       localStorage.setItem('accessToken', data.data.accessToken);
-      localStorage.setItem('user', JSON.stringify(data.data.user));
-      navigate('/dashboard');
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      if (user.role === 'STAFF' || user.role === 'ADMIN') {
+        navigate('/staff/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       const apiError = err.response?.data?.error;
       const code = apiError?.code || 'AUTH-001';

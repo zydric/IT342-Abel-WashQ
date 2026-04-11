@@ -67,9 +67,9 @@ export default function BookingStatusDropdown({
                         {canUpdate && !inlineOpen && (
                             <button
                                 onClick={() => setInlineOpen(true)}
-                                className="w-full text-left flex items-center justify-between px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-primary transition-colors"
+                                className="block w-full text-left flex items-center justify-between px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 hover:text-primary transition-colors"
                             >
-                                Update Status
+                                <span>Update Status</span>
                                 <svg className="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
                             </button>
                         )}
@@ -78,15 +78,15 @@ export default function BookingStatusDropdown({
                             <button
                                 key={ns.id}
                                 onClick={() => handleActionClick(ns.id)}
-                                className="w-full text-left px-4 py-2 text-sm font-semibold text-primary bg-primary-light/30 hover:bg-primary-light transition-colors"
+                                className="block w-full text-left px-4 py-3 text-sm font-semibold text-primary bg-primary/10 hover:bg-primary/20 transition-colors border-l-4 border-primary"
                             >
-                                → {ns.label}
+                                {ns.label} &rarr;
                             </button>
                         ))}
 
                         <button
                             onClick={() => { setOpen(false); onViewDetails(); }}
-                            className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
+                            className="block w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
                         >
                             View Details
                         </button>
@@ -94,7 +94,7 @@ export default function BookingStatusDropdown({
                         {canCancel && (
                             <button
                                 onClick={() => { setOpen(false); onCancelBooking(); }}
-                                className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors border-t border-neutral-100"
+                                className="block w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors border-t border-neutral-100"
                             >
                                 Cancel Booking
                             </button>

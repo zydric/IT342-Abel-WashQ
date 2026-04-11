@@ -171,6 +171,17 @@ public class BookingService {
         response.setCreatedAt(booking.getCreatedAt());
         response.setUpdatedAt(booking.getUpdatedAt());
         
+        User u = booking.getUser();
+        if (u != null) {
+            UserDTO userDto = new UserDTO();
+            userDto.setId(u.getId());
+            userDto.setEmail(u.getEmail());
+            userDto.setFirstName(u.getFirstName());
+            userDto.setLastName(u.getLastName());
+            userDto.setContactNumber(u.getContactNumber());
+            response.setUser(userDto);
+        }
+        
         edu.cit.abel.washq.entity.Service service = booking.getService();
         if (service != null) {
             response.setService(new ServiceDTO(
