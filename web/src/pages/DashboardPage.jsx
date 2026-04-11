@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
+import WeatherWidget from '../components/WeatherWidget';
 
 // ─── Shared Navbar ────────────────────────────────────────────────────────────
 function Navbar() {
@@ -190,6 +191,7 @@ export default function DashboardPage() {
 
           {/* Quick stats placeholder */}
           <div className="grid grid-cols-1 gap-4">
+            <WeatherWidget />
             <StatCard
               icon={
                 <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
