@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.ui
+package edu.cit.abel.washq.feature.dashboard.ui
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import edu.cit.abel.washq.R
-import edu.cit.abel.washq.util.SecurePrefsManager
+import edu.cit.abel.washq.shared.util.SecurePrefsManager
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale

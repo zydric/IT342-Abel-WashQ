@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.ui
+package edu.cit.abel.washq.feature.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,13 +18,13 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import edu.cit.abel.washq.R
-import edu.cit.abel.washq.api.RetrofitClient
-import edu.cit.abel.washq.model.RegisterRequest
-import edu.cit.abel.washq.repository.AuthRepository
-import edu.cit.abel.washq.util.SecurePrefsManager
+import edu.cit.abel.washq.shared.api.RetrofitClient
+import edu.cit.abel.washq.feature.auth.model.RegisterRequest
+import edu.cit.abel.washq.feature.auth.repository.AuthRepository
+import edu.cit.abel.washq.shared.util.SecurePrefsManager
 import edu.cit.abel.washq.viewmodel.AuthUiState
-import edu.cit.abel.washq.viewmodel.AuthViewModel
-import edu.cit.abel.washq.viewmodel.AuthViewModelFactory
+import edu.cit.abel.washq.feature.auth.viewmodel.AuthViewModel
+import edu.cit.abel.washq.feature.auth.viewmodel.AuthViewModelFactory
 
 class RegisterActivity : BaseActivity() {
 

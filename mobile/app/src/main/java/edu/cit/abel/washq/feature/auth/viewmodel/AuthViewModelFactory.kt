@@ -1,8 +1,8 @@
-package edu.cit.abel.washq.viewmodel
+package edu.cit.abel.washq.feature.auth.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import edu.cit.abel.washq.repository.AuthRepository
+import edu.cit.abel.washq.feature.auth.repository.AuthRepository
 
 class AuthViewModelFactory(
     private val authRepository: AuthRepository

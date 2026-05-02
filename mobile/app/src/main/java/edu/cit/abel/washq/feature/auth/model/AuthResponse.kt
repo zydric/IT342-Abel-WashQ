@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.model
+package edu.cit.abel.washq.feature.auth.model
 
 data class AuthResponse(
     val user: UserDto,

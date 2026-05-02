@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.model
+package edu.cit.abel.washq.shared.model
 
 data class ApiEnvelope<T>(
     val success: Boolean,

@@ -1,10 +1,10 @@
-package edu.cit.abel.washq.util
+package edu.cit.abel.washq.shared.util
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import edu.cit.abel.washq.api.ApiConfig
+import edu.cit.abel.washq.shared.api.ApiConfig
 
 object SecurePrefsManager {
 

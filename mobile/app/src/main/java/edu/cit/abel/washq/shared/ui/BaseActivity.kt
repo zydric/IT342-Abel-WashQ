@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.ui
+package edu.cit.abel.washq.shared.ui
 
 import android.os.Bundle
 import android.view.View

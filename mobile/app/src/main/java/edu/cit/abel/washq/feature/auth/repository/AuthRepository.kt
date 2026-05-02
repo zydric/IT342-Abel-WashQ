@@ -1,12 +1,12 @@
-package edu.cit.abel.washq.repository
+package edu.cit.abel.washq.feature.auth.repository
 
 import com.google.gson.reflect.TypeToken
-import edu.cit.abel.washq.api.ApiService
-import edu.cit.abel.washq.api.RetrofitClient
-import edu.cit.abel.washq.model.ApiEnvelope
-import edu.cit.abel.washq.model.AuthResponse
-import edu.cit.abel.washq.model.LoginRequest
-import edu.cit.abel.washq.model.RegisterRequest
+import edu.cit.abel.washq.shared.api.ApiService
+import edu.cit.abel.washq.shared.api.RetrofitClient
+import edu.cit.abel.washq.shared.model.ApiEnvelope
+import edu.cit.abel.washq.feature.auth.model.AuthResponse
+import edu.cit.abel.washq.feature.auth.model.LoginRequest
+import edu.cit.abel.washq.feature.auth.model.RegisterRequest
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException

@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.repository
+package edu.cit.abel.washq.shared.model
 
 sealed class Result<out T> {
     data class Success<T>(val data: T) : Result<T>()

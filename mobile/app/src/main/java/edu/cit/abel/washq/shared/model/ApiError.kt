@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.model
+package edu.cit.abel.washq.shared.model
 
 import com.google.gson.JsonElement
 

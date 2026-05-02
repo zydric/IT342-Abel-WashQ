@@ -1,14 +1,14 @@
-package edu.cit.abel.washq.viewmodel
+package edu.cit.abel.washq.feature.auth.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.cit.abel.washq.model.AuthResponse
-import edu.cit.abel.washq.model.LoginRequest
-import edu.cit.abel.washq.model.RegisterRequest
-import edu.cit.abel.washq.repository.AuthRepository
-import edu.cit.abel.washq.repository.Result
+import edu.cit.abel.washq.feature.auth.model.AuthResponse
+import edu.cit.abel.washq.feature.auth.model.LoginRequest
+import edu.cit.abel.washq.feature.auth.model.RegisterRequest
+import edu.cit.abel.washq.feature.auth.repository.AuthRepository
+import edu.cit.abel.washq.shared.model.Result
 import kotlinx.coroutines.launch
 
 class AuthViewModel(

@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.model
+package edu.cit.abel.washq.feature.user.model
 
 data class UserDto(
     val id: Long,

@@ -1,9 +1,9 @@
-package edu.cit.abel.washq.api
+package edu.cit.abel.washq.shared.api
 
-import edu.cit.abel.washq.model.ApiEnvelope
-import edu.cit.abel.washq.model.AuthResponse
-import edu.cit.abel.washq.model.LoginRequest
-import edu.cit.abel.washq.model.RegisterRequest
+import edu.cit.abel.washq.shared.model.ApiEnvelope
+import edu.cit.abel.washq.feature.auth.model.AuthResponse
+import edu.cit.abel.washq.feature.auth.model.LoginRequest
+import edu.cit.abel.washq.feature.auth.model.RegisterRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

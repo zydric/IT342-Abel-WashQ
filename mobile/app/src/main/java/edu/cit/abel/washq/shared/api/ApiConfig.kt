@@ -1,4 +1,4 @@
-package edu.cit.abel.washq.api
+package edu.cit.abel.washq.shared.api
 
 import edu.cit.abel.washq.BuildConfig
 

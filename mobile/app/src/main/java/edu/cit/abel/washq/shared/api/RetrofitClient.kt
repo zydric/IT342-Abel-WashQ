@@ -1,8 +1,8 @@
-package edu.cit.abel.washq.api
+package edu.cit.abel.washq.shared.api
 
 import android.content.Context
 import com.google.gson.Gson
-import edu.cit.abel.washq.util.SecurePrefsManager
+import edu.cit.abel.washq.shared.util.SecurePrefsManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
