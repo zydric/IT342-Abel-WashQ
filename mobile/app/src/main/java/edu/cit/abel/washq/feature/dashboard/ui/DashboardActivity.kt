@@ -9,6 +9,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import edu.cit.abel.washq.R
+import edu.cit.abel.washq.shared.ui.BaseActivity
 import edu.cit.abel.washq.shared.util.SecurePrefsManager
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

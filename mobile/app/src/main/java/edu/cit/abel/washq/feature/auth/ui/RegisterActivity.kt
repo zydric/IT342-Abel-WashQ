@@ -22,9 +22,11 @@ import edu.cit.abel.washq.shared.api.RetrofitClient
 import edu.cit.abel.washq.feature.auth.model.RegisterRequest
 import edu.cit.abel.washq.feature.auth.repository.AuthRepository
 import edu.cit.abel.washq.shared.util.SecurePrefsManager
-import edu.cit.abel.washq.viewmodel.AuthUiState
+import edu.cit.abel.washq.feature.auth.viewmodel.AuthUiState
 import edu.cit.abel.washq.feature.auth.viewmodel.AuthViewModel
 import edu.cit.abel.washq.feature.auth.viewmodel.AuthViewModelFactory
+import edu.cit.abel.washq.shared.ui.BaseActivity
+import edu.cit.abel.washq.feature.dashboard.ui.DashboardActivity
 
 class RegisterActivity : BaseActivity() {
 

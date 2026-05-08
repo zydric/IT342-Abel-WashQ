@@ -10,6 +10,7 @@ import edu.cit.abel.washq.feature.auth.model.RegisterRequest
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import edu.cit.abel.washq.shared.model.Result
 
 class AuthRepository(
     private val apiService: ApiService

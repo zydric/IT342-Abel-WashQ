@@ -24,7 +24,8 @@ class AuthViewModel(
     fun register(request: RegisterRequest) {
         _registerState.value = AuthUiState.Loading
         viewModelScope.launch {
-            when (val result = authRepository.register(request)) {
+            @Suppress("UNCHECKED_CAST")
+            when (val result = authRepository.register(request) as Result<AuthResponse>) {
                 is Result.Success -> _registerState.postValue(AuthUiState.Success(result.data))
                 is Result.Error -> _registerState.postValue(
                     AuthUiState.Error(
@@ -39,7 +40,8 @@ class AuthViewModel(
     fun login(request: LoginRequest) {
         _loginState.value = AuthUiState.Loading
         viewModelScope.launch {
-            when (val result = authRepository.login(request)) {
+            @Suppress("UNCHECKED_CAST")
+            when (val result = authRepository.login(request) as Result<AuthResponse>) {
                 is Result.Success -> _loginState.postValue(AuthUiState.Success(result.data))
                 is Result.Error -> _loginState.postValue(
                     AuthUiState.Error(
