@@ -12,3 +12,5 @@ backend/uploads/
 
 # Scratch scripts
 *.py
+.pdf-venv/
+FullRegressionReport_G1_ResearchCenter.pdf
