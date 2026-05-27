@@ -48,4 +48,14 @@ public class AuthController {
         UserDTO data = authService.getCurrentUser(email);
         return ResponseEntity.ok(ApiResponse.success(data));
     }
+
+    /**
+     * POST /auth/google
+     * Authenticate with a Google ID token (OAuth 2.0 flow).
+     */
+    @PostMapping("/google")
+    public ResponseEntity<ApiResponse<AuthResponse>> googleLogin(@Valid @RequestBody GoogleAuthRequest request) {
+        AuthResponse data = authService.googleLogin(request.getIdToken());
+        return ResponseEntity.ok(ApiResponse.success(data));
+    }
 }
