@@ -1,0 +1,160 @@
+@startuml WashQ_System_Architecture
+!theme plain
+skinparam linetype ortho
+skinparam defaultFontName Inter
+skinparam defaultFontSize 12
+skinparam backgroundColor #FAFAFA
+skinparam shadowing false
+skinparam roundCorner 10
+skinparam packageStyle rectangle
+
+title **WashQ – Online Laundry Reservation System**\nSystem Architecture Diagram
+
+' ========================================
+' ACTORS
+' ========================================
+
+actor "Customer" as CUSTOMER #3B82F6
+actor "Staff" as STAFF #F97316
+actor "Admin" as ADMIN #8B5CF6
+
+' ========================================
+' PRESENTATION LAYER
+' ========================================
+
+package "Presentation Layer" as PRES #E3F2FD {
+
+    package "Web Frontend\n(React 19 / Vite / Tailwind CSS)" as WEB #BBDEFB {
+        rectangle "Auth\n(Login, Register)" as WEB_AUTH
+        rectangle "Dashboard" as WEB_DASH
+        rectangle "Service Catalog" as WEB_CATALOG
+        rectangle "Booking Wizard\n(3-Step Flow)" as WEB_BOOKING
+        rectangle "Order History" as WEB_ORDERS
+        rectangle "Staff Dashboard" as WEB_STAFF
+        rectangle "Profile Management" as WEB_PROFILE
+        rectangle "Weather Widget" as WEB_WEATHER
+        rectangle "Shared\n(Axios, Navbar, Sidebar,\nProtectedRoute, Router)" as WEB_SHARED
+    }
+
+    package "Mobile App\n(Android / Kotlin)" as MOBILE #C8E6C9 {
+        rectangle "Auth\n(Login, Register)" as MOB_AUTH
+        rectangle "Dashboard" as MOB_DASH
+        rectangle "Shared\n(Retrofit, SecurePrefs)" as MOB_SHARED
+    }
+}
+
+' ========================================
+' BACKEND LAYER
+' ========================================
+
+package "Backend Layer — Spring Boot 3 (Java 17)" as BACKEND #FFF3E0 {
+
+    package "Feature Slices (Vertical Slice Architecture)" as FEATURES #FFE0B2 {
+        rectangle "Auth\n(Register, Login, Me)" as BE_AUTH
+        rectangle "Booking\n(Create, List, Update Status, Cancel)" as BE_BOOKING
+        rectangle "Catalog\n(CRUD Laundry Services)" as BE_CATALOG
+        rectangle "Time Slot\n(Query Available Slots)" as BE_TIMESLOT
+        rectangle "User\n(Profile Update, Avatar Upload)" as BE_USER
+        rectangle "Weather\n(Current Weather Proxy)" as BE_WEATHER
+    }
+
+    package "Shared / Cross-Cutting" as SHARED #FFCCBC {
+        rectangle "Security\n(JWT Auth Filter, BCrypt,\nSpring Security, CORS)" as BE_SECURITY
+        rectangle "API Response Envelope\n& Global Exception Handler" as BE_COMMON
+        rectangle "Static File Serving\n(WebMvcConfig)" as BE_CONFIG
+    }
+}
+
+' ========================================
+' DATA & STORAGE LAYER
+' ========================================
+
+package "Data & Storage Layer" as DATA #F3E5F5 {
+    database "PostgreSQL\n(Supabase Cloud)" as PG #CE93D8 {
+        rectangle "users" as TBL_U
+        rectangle "services" as TBL_S
+        rectangle "time_slots" as TBL_T
+        rectangle "bookings" as TBL_B
+    }
+    folder "File System\n(uploads/)" as FS #EF9A9A
+    database "H2 In-Memory\n(Test Only)" as H2 #B0BEC5
+}
+
+' ========================================
+' EXTERNAL SERVICES
+' ========================================
+
+cloud "External APIs" as EXT #E0F7FA {
+    rectangle "OpenWeatherMap\n(Cebu City, PH)" as OWM #80DEEA
+    rectangle "Google OAuth\n(Planned)" as GOOGLE #B2DFDB
+}
+
+' ========================================
+' ACTOR → CLIENT CONNECTIONS
+' ========================================
+
+CUSTOMER -down-> WEB : "Browse, Book,\nManage Profile"
+CUSTOMER -down-> MOBILE : "Login, Register"
+STAFF -down-> WEB : "Manage Bookings"
+ADMIN -down-> WEB : "Manage Services\n& Bookings"
+
+' ========================================
+' CLIENT → BACKEND CONNECTIONS
+' ========================================
+
+WEB_SHARED -down--> FEATURES : "HTTP / REST\n(Axios + JWT)"
+MOB_SHARED -down--> BE_AUTH : "HTTP / REST\n(Retrofit + JWT)"
+
+' ========================================
+' CROSS-CUTTING → FEATURES
+' ========================================
+
+BE_SECURITY -[dashed]-> FEATURES : "Secures all\nendpoints"
+BE_COMMON -[dashed]-> FEATURES : "Wraps responses\n& handles errors"
+
+' ========================================
+' BACKEND → DATA CONNECTIONS
+' ========================================
+
+BE_AUTH -down-> TBL_U : "JPA"
+BE_BOOKING -down-> TBL_B : "JPA"
+BE_CATALOG -down-> TBL_S : "JPA"
+BE_TIMESLOT -down-> TBL_T : "JPA"
+BE_USER -down-> TBL_U : "JPA"
+BE_USER -down-> FS : "Avatar\nStorage"
+BE_CONFIG -[dashed]-> FS : "Serves\n/uploads/**"
+
+' ========================================
+' DATABASE RELATIONSHIPS
+' ========================================
+
+TBL_B -right-> TBL_U : "FK: user_id"
+TBL_B -right-> TBL_S : "FK: service_id"
+TBL_B -left-> TBL_T : "FK: time_slot_id"
+
+' ========================================
+' EXTERNAL API
+' ========================================
+
+BE_WEATHER -down-> OWM : "REST\n(RestTemplate)"
+BE_AUTH -[dashed]-> GOOGLE : "/auth/google\n(registered, not\nyet implemented)"
+
+' ========================================
+' LEGEND
+' ========================================
+
+legend right
+  |= Color |= Meaning |
+  | <#BBDEFB> | Web Frontend |
+  | <#C8E6C9> | Mobile App |
+  | <#FFE0B2> | Backend Feature Slice |
+  | <#FFCCBC> | Shared / Cross-Cutting |
+  | <#CE93D8> | PostgreSQL Database |
+  | <#EF9A9A> | File Storage |
+  | <#80DEEA> | External API |
+  ---
+  **Arch:** Vertical Slice
+  **Auth:** JWT + BCrypt (Stateless)
+endlegend
+
+@enduml
