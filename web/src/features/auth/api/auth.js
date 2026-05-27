@@ -6,4 +6,7 @@ export const loginUser = (email, password) =>
 export const registerUser = ({ firstName, lastName, email, password, address, contactNumber }) =>
   API.post('/auth/register', { firstName, lastName, email, password, address, contactNumber });
 
+export const googleLogin = (idToken) =>
+  API.post('/auth/google', { idToken });
+
 export const getCurrentUser = () => API.get('/auth/me');

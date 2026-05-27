@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from './api/auth';
+import { loginUser, googleLogin } from './api/auth';
 
 /* ───── tiny SVG icons (inlined to avoid extra deps) ───── */
 const EyeIcon = () => (
@@ -51,6 +51,47 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
+  const [googleLoading, setGoogleLoading] = useState(false);
+
+  // ── Google Identity Services callback ──
+  const handleGoogleCredential = useCallback(async (response) => {
+    setGoogleLoading(true);
+    setErrorMsg('');
+    try {
+      const { data } = await googleLogin(response.credential);
+      const user = data.data.user;
+      localStorage.setItem('accessToken', data.data.accessToken);
+      localStorage.setItem('user', JSON.stringify(user));
+      if (user.role === 'STAFF' || user.role === 'ADMIN') {
+        navigate('/staff/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      const apiError = err.response?.data?.error;
+      setErrorMsg(apiError?.message || 'Google sign-in failed. Please try again.');
+    } finally {
+      setGoogleLoading(false);
+    }
+  }, [navigate]);
+
+  // ── Load Google Identity Services script ──
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID || '',
+          callback: handleGoogleCredential,
+        });
+      }
+    };
+    document.body.appendChild(script);
+    return () => { document.body.removeChild(script); };
+  }, [handleGoogleCredential]);
 
   /* ── client-side validation ── */
   const validate = () => {
@@ -208,10 +249,17 @@ export default function LoginPage() {
           {/* Google OAuth */}
           <button
             type="button"
-            className="w-full flex items-center justify-center gap-2 border border-[#CBD5E1] rounded-btn py-2.5 text-body font-medium text-neutral-700 bg-white hover:bg-neutral-50 transition-btn"
+            disabled={googleLoading || loading}
+            onClick={() => {
+              if (window.google) {
+                window.google.accounts.id.prompt();
+              } else {
+                setErrorMsg('Google Sign-In is not available. Please try again later.');
+              }
+            }}
+            className="w-full flex items-center justify-center gap-2 border border-[#CBD5E1] rounded-btn py-2.5 text-body font-medium text-neutral-700 bg-white hover:bg-neutral-50 transition-btn disabled:opacity-60"
           >
-            <GoogleIcon />
-            Continue with Google
+            {googleLoading ? <Spinner /> : <><GoogleIcon /> Continue with Google</>}
           </button>
 
           {/* Register link */}

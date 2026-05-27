@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { getBookings } from '../booking/api/bookingApi';
 import WeatherWidget from '../weather/components/WeatherWidget';
 import Navbar from '../../shared/components/Navbar';
 
@@ -23,6 +24,25 @@ function StatCard({ icon, label, value, sub }) {
 export default function DashboardPage() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const [bookings, setBookings] = useState([]);
+
+  useEffect(() => {
+    getBookings()
+      .then(res => {
+        const data = Array.isArray(res.data) ? res.data : (res.data?.data || []);
+        setBookings(data);
+      })
+      .catch(() => {}); // silent fail for dashboard
+  }, []);
+
+  const stats = useMemo(() => {
+    const active = bookings.filter(b => !['COMPLETED', 'CANCELLED'].includes(b.status));
+    const lastBooking = bookings.length > 0 ? bookings[0] : null;
+    const lastDate = lastBooking?.createdAt
+      ? new Date(lastBooking.createdAt).toLocaleDateString('en-PH', { month: 'short', day: 'numeric' })
+      : null;
+    return { activeCount: active.length, lastDate };
+  }, [bookings]);
 
   const now = new Date();
   const greeting = (() => {
@@ -87,7 +107,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Quick stats placeholder */}
+          {/* Quick stats */}
           <div className="grid grid-cols-1 gap-4">
             <WeatherWidget />
             <StatCard
@@ -97,8 +117,8 @@ export default function DashboardPage() {
                 </svg>
               }
               label="Active Bookings"
-              value="—"
-              sub="Coming soon"
+              value={stats.activeCount}
+              sub={stats.activeCount === 0 ? 'No active orders' : 'In progress'}
             />
             <StatCard
               icon={
@@ -107,8 +127,8 @@ export default function DashboardPage() {
                 </svg>
               }
               label="Last Booking"
-              value="—"
-              sub="No bookings yet"
+              value={stats.lastDate || '—'}
+              sub={stats.lastDate ? 'Most recent order' : 'No bookings yet'}
             />
           </div>
         </section>
@@ -146,3 +166,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

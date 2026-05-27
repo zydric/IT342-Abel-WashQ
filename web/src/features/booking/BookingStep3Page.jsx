@@ -307,7 +307,7 @@ export default function BookingStep3Page() {
                     Your laundry session has been booked successfully.
                 </p>
                 <button
-                    onClick={() => navigate('/bookings')}
+                    onClick={() => navigate('/orders')}
                     className="w-full bg-primary text-white text-body font-semibold uppercase tracking-wide py-3 rounded-btn hover:bg-primary-dark active:scale-[0.98] transition-all"
                 >
                     View My Bookings
