@@ -11,4 +11,5 @@ object ApiConfig {
     const val USER_ID_KEY: String = "user_id"
     const val USER_EMAIL_KEY: String = "user_email"
     const val USER_FIRST_NAME_KEY: String = "user_first_name"
+    const val USER_ROLE_KEY: String = "user_role"
 }

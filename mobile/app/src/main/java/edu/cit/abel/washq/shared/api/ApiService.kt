@@ -5,6 +5,9 @@ import edu.cit.abel.washq.feature.auth.model.LoginRequest
 import edu.cit.abel.washq.feature.auth.model.RegisterRequest
 import edu.cit.abel.washq.feature.booking.model.BookingRequest
 import edu.cit.abel.washq.feature.booking.model.BookingResponse
+import edu.cit.abel.washq.feature.booking.model.PaymentRequest
+import edu.cit.abel.washq.feature.booking.model.PaymentResponse
+import edu.cit.abel.washq.feature.dashboard.model.WeatherResponse
 import edu.cit.abel.washq.feature.catalog.model.ServiceDto
 import edu.cit.abel.washq.feature.timeslot.model.TimeSlotDto
 import edu.cit.abel.washq.feature.user.model.UserDto
@@ -70,4 +73,14 @@ interface ApiService {
         @Path("id") id: Long,
         @Part file: MultipartBody.Part
     ): Response<ApiEnvelope<Map<String, String>>>
+
+    // ── Payments ──
+    @POST("api/v1/payments/create")
+    suspend fun createPayment(
+        @Body request: PaymentRequest
+    ): Response<ApiEnvelope<PaymentResponse>>
+
+    // ── Weather ──
+    @GET("api/v1/weather")
+    suspend fun getLiveWeather(): Response<ApiEnvelope<WeatherResponse>>
 }

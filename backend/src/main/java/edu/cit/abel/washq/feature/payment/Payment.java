@@ -32,6 +32,12 @@ public class Payment {
     @Column(name = "paymongo_payment_id", length = 255)
     private String paymongoPaymentId;
 
+    @Column(nullable = false, length = 10)
+    private String currency = "PHP";
+
+    @Column(name = "payment_method", length = 50)
+    private String paymentMethod;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -73,6 +79,12 @@ public class Payment {
 
     public String getPaymongoPaymentId() { return paymongoPaymentId; }
     public void setPaymongoPaymentId(String paymongoPaymentId) { this.paymongoPaymentId = paymongoPaymentId; }
+
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
+
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

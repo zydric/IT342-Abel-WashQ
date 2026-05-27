@@ -106,6 +106,31 @@ public class PaymentService {
 
                 if (payment != null && !"PAID".equals(payment.getStatus())) {
                     payment.setStatus("PAID");
+
+                    // Dynamically extract payment source type (e.g. gcash, card, paymaya) and currency from PayMongo attributes
+                    try {
+                        List<Map<String, Object>> paymentsList = (List<Map<String, Object>>) eventAttrs.get("payments");
+                        if (paymentsList != null && !paymentsList.isEmpty()) {
+                            Map<String, Object> paymentObj = paymentsList.get(0);
+                            Map<String, Object> paymentAttrs = (Map<String, Object>) paymentObj.get("attributes");
+                            if (paymentAttrs != null) {
+                                Map<String, Object> source = (Map<String, Object>) paymentAttrs.get("source");
+                                if (source != null) {
+                                    String method = (String) source.get("type");
+                                    if (method != null) {
+                                        payment.setPaymentMethod(method.toUpperCase());
+                                    }
+                                }
+                                String payCurrency = (String) paymentAttrs.get("currency");
+                                if (payCurrency != null) {
+                                    payment.setCurrency(payCurrency.toUpperCase());
+                                }
+                            }
+                        }
+                    } catch (Exception pe) {
+                        System.err.println("⚠️ Could not extract payment details from webhook: " + pe.getMessage());
+                    }
+
                     paymentRepository.save(payment);
 
                     // Update booking status to RECEIVED
@@ -113,7 +138,7 @@ public class PaymentService {
                     booking.setStatus("RECEIVED");
                     bookingRepository.save(booking);
 
-                    System.out.println("✅ Payment confirmed for booking #" + booking.getId());
+                    System.out.println("✅ Payment confirmed (" + payment.getPaymentMethod() + ") for booking #" + booking.getId());
                 }
             }
         } catch (Exception e) {
@@ -176,7 +201,9 @@ public class PaymentService {
                 payment.getAmount(),
                 payment.getStatus(),
                 payment.getCheckoutUrl(),
-                payment.getCreatedAt()
+                payment.getCreatedAt(),
+                payment.getCurrency(),
+                payment.getPaymentMethod()
         );
     }
 }

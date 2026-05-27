@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { createBooking } from './api/bookingApi';
+import { createPayment } from '../payment/api/paymentApi';
 import Navbar from '../../shared/components/Navbar';
 
 // ─── Progress Stepper ─────────────────────────────────────────────────────────
@@ -116,6 +117,18 @@ export default function BookingStep3Page() {
     try {
         const response = await createBooking(payload);
         if (response.data?.success) {
+            const bookingId = response.data.data.id;
+            // Create PayMongo checkout session
+            const paymentResponse = await createPayment(bookingId);
+            if (paymentResponse.data?.success) {
+                const checkoutUrl = paymentResponse.data.data.checkoutUrl;
+                if (checkoutUrl) {
+                    // Redirect customer to PayMongo's secure payment sandbox
+                    window.location.href = checkoutUrl;
+                    return;
+                }
+            }
+            // Fallback success modal
             setShowSuccessModal(true);
         }
     } catch (err) {

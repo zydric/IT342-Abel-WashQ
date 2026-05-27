@@ -27,13 +27,15 @@ object SecurePrefsManager {
         token: String,
         userId: Long,
         userEmail: String,
-        userFirstName: String
+        userFirstName: String,
+        userRole: String
     ) {
         prefs(context).edit()
             .putString(ApiConfig.AUTH_TOKEN_KEY, token)
             .putLong(ApiConfig.USER_ID_KEY, userId)
             .putString(ApiConfig.USER_EMAIL_KEY, userEmail)
             .putString(ApiConfig.USER_FIRST_NAME_KEY, userFirstName)
+            .putString(ApiConfig.USER_ROLE_KEY, userRole)
             .apply()
     }
 
@@ -43,6 +45,10 @@ object SecurePrefsManager {
 
     fun getFirstName(context: Context, fallback: String): String {
         return prefs(context).getString(ApiConfig.USER_FIRST_NAME_KEY, fallback).orEmpty()
+    }
+
+    fun getUserRole(context: Context): String {
+        return prefs(context).getString(ApiConfig.USER_ROLE_KEY, "CUSTOMER") ?: "CUSTOMER"
     }
 
     fun clearAuthSession(context: Context) {

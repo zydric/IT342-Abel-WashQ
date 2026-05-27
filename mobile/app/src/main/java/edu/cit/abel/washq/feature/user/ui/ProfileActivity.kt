@@ -97,12 +97,22 @@ class ProfileActivity : BaseActivity() {
 
     private fun setupBottomNav() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+        val role = SecurePrefsManager.getUserRole(applicationContext)
+        val isStaffOrAdmin = "STAFF".equals(role, ignoreCase = true) || "ADMIN".equals(role, ignoreCase = true)
+
+        if (isStaffOrAdmin) {
+            bottomNav.menu.clear()
+            bottomNav.inflateMenu(R.menu.bottom_nav_staff_menu)
+        }
+
         bottomNav.selectedItemId = R.id.navProfile
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navHome -> {
-                    startActivity(Intent(this, DashboardActivity::class.java))
-                    finish()
+                    if (!isStaffOrAdmin) {
+                        startActivity(Intent(this, DashboardActivity::class.java))
+                        finish()
+                    }
                     true
                 }
                 R.id.navBookings -> {

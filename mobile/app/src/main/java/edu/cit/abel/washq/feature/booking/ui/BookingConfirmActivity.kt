@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import edu.cit.abel.washq.R
 import edu.cit.abel.washq.feature.booking.model.BookingRequest
+import edu.cit.abel.washq.feature.booking.model.PaymentRequest
 import edu.cit.abel.washq.shared.api.RetrofitClient
 import edu.cit.abel.washq.shared.ui.BaseActivity
 import kotlinx.coroutines.launch
@@ -83,7 +84,26 @@ class BookingConfirmActivity : BaseActivity() {
             lifecycleScope.launch {
                 try {
                     val response = RetrofitClient.apiService.createBooking(request)
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val bookingId = response.body()?.data?.id
+                        if (bookingId != null) {
+                            val payResponse = RetrofitClient.apiService.createPayment(PaymentRequest(bookingId))
+                            if (payResponse.isSuccessful && payResponse.body()?.success == true) {
+                                val checkoutUrl = payResponse.body()?.data?.checkoutUrl
+                                if (!checkoutUrl.isNullOrBlank()) {
+                                    // Open PayMongo checkout session directly in the system browser
+                                    val browserIntent = android.content.Intent(
+                                        android.content.Intent.ACTION_VIEW,
+                                        android.net.Uri.parse(checkoutUrl)
+                                    )
+                                    startActivity(browserIntent)
+                                    finish()
+                                    return@launch
+                                }
+                            }
+                        }
+
+                        // Fallback local success dialog if payment URL is somehow blank
                         MaterialAlertDialogBuilder(this@BookingConfirmActivity)
                             .setTitle("Booking Confirmed! ✅")
                             .setMessage("Your $serviceName booking has been created successfully.")

@@ -10,17 +10,22 @@ public class PaymentResponseDTO {
     private String status;
     private String checkoutUrl;
     private LocalDateTime createdAt;
+    private String currency;
+    private String paymentMethod;
 
     public PaymentResponseDTO() {}
 
     public PaymentResponseDTO(Long paymentId, Long bookingId, BigDecimal amount,
-                               String status, String checkoutUrl, LocalDateTime createdAt) {
+                              String status, String checkoutUrl, LocalDateTime createdAt,
+                              String currency, String paymentMethod) {
         this.paymentId = paymentId;
         this.bookingId = bookingId;
         this.amount = amount;
         this.status = status;
         this.checkoutUrl = checkoutUrl;
         this.createdAt = createdAt;
+        this.currency = currency;
+        this.paymentMethod = paymentMethod;
     }
 
     // --- Getters and Setters ---
@@ -41,4 +46,10 @@ public class PaymentResponseDTO {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
+
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 }

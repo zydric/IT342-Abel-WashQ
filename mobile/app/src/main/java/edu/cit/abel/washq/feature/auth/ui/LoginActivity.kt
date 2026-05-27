@@ -155,15 +155,23 @@ class LoginActivity : BaseActivity() {
                 is AuthUiState.Success -> {
                     showLoading(false)
                     val payload = state.data
+                    val role = payload.user.role
                     SecurePrefsManager.saveAuthSession(
                         context = applicationContext,
                         token = payload.accessToken,
                         userId = payload.user.id,
                         userEmail = payload.user.email,
-                        userFirstName = payload.user.firstName
+                        userFirstName = payload.user.firstName,
+                        userRole = role
                     )
 
-                    val intent = Intent(this, DashboardActivity::class.java)
+                    val targetActivity = if ("STAFF".equals(role, ignoreCase = true) || "ADMIN".equals(role, ignoreCase = true)) {
+                        edu.cit.abel.washq.feature.booking.ui.BookingsActivity::class.java
+                    } else {
+                        DashboardActivity::class.java
+                    }
+
+                    val intent = Intent(this, targetActivity)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                 }
@@ -287,14 +295,23 @@ class LoginActivity : BaseActivity() {
                     showLoading(false)
                     val payload = response.body()!!.data
                     if (payload != null) {
+                        val role = payload.user.role
                         SecurePrefsManager.saveAuthSession(
                             context = applicationContext,
                             token = payload.accessToken,
                             userId = payload.user.id,
                             userEmail = payload.user.email,
-                            userFirstName = payload.user.firstName
+                            userFirstName = payload.user.firstName,
+                            userRole = role
                         )
-                        val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                        
+                        val targetActivity = if ("STAFF".equals(role, ignoreCase = true) || "ADMIN".equals(role, ignoreCase = true)) {
+                            edu.cit.abel.washq.feature.booking.ui.BookingsActivity::class.java
+                        } else {
+                            DashboardActivity::class.java
+                        }
+
+                        val intent = Intent(this@LoginActivity, targetActivity)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                     } else {

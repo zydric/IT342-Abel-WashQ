@@ -14,6 +14,9 @@ import edu.cit.abel.washq.feature.catalog.ui.ServiceListActivity
 import edu.cit.abel.washq.feature.user.ui.ProfileActivity
 import edu.cit.abel.washq.shared.ui.BaseActivity
 import edu.cit.abel.washq.shared.util.SecurePrefsManager
+import androidx.lifecycle.lifecycleScope
+import edu.cit.abel.washq.shared.api.RetrofitClient
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -27,6 +30,7 @@ class DashboardActivity : BaseActivity() {
         setupToolbar()
         setupDashboardHeader()
         setupActions()
+        setupLiveWeather()
     }
 
     private fun setupToolbar() {
@@ -127,5 +131,31 @@ class DashboardActivity : BaseActivity() {
     private fun formatCurrentDate(): String {
         val formatter = DateTimeFormatter.ofPattern("EEE, MMM d", Locale.ENGLISH)
         return LocalDate.now().format(formatter)
+    }
+
+    private fun setupLiveWeather() {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.getLiveWeather()
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val weather = response.body()?.data
+                    if (weather != null) {
+                        findViewById<TextView>(R.id.tvTemperature).text = "${weather.temperature.toInt()}°"
+                        findViewById<TextView>(R.id.tvCondition).text = weather.condition
+                        findViewById<TextView>(R.id.tvHumidity).text = "${weather.humidity}% Humidity"
+
+                        val advice = when (weather.condition.lowercase(Locale.ENGLISH)) {
+                            "clear" -> "Perfect laundry weather! Hang your clothes outside."
+                            "clouds" -> "Good day for washing, but keep an eye on the sky."
+                            "rain", "drizzle", "thunderstorm" -> "Rainy day! Use WashQ's premium machine drying."
+                            else -> "Great time to schedule a pickup or drop-off."
+                        }
+                        findViewById<TextView>(R.id.tvWeatherAdvice).text = advice
+                    }
+                }
+            } catch (e: Exception) {
+                // Network error fallback: keep the clean layout defaults
+            }
+        }
     }
 }
