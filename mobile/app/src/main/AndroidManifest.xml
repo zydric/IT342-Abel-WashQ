@@ -17,6 +17,22 @@
             android:name=".feature.dashboard.ui.DashboardActivity"
             android:exported="false" />
         <activity
+            android:name=".feature.catalog.ui.ServiceListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.timeslot.ui.SlotSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.booking.ui.BookingConfirmActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".feature.booking.ui.BookingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.user.ui.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.auth.ui.RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />

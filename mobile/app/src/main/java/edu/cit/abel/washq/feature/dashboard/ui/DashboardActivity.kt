@@ -1,5 +1,6 @@
 package edu.cit.abel.washq.feature.dashboard.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -7,8 +8,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 import edu.cit.abel.washq.R
+import edu.cit.abel.washq.feature.booking.ui.BookingsActivity
+import edu.cit.abel.washq.feature.catalog.ui.ServiceListActivity
+import edu.cit.abel.washq.feature.user.ui.ProfileActivity
 import edu.cit.abel.washq.shared.ui.BaseActivity
 import edu.cit.abel.washq.shared.util.SecurePrefsManager
 import java.time.LocalDate
@@ -39,33 +42,43 @@ class DashboardActivity : BaseActivity() {
 
     private fun setupActions() {
         findViewById<View>(R.id.notificationContainer).setOnClickListener {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_feature_coming_soon), Snackbar.LENGTH_SHORT).show()
+            com.google.android.material.snackbar.Snackbar.make(
+                findViewById(android.R.id.content),
+                getString(R.string.msg_feature_coming_soon),
+                com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+            ).show()
         }
 
+        // Book Now → Service List
         findViewById<View>(R.id.btnBookNow).setOnClickListener {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_booking_coming_soon), Snackbar.LENGTH_SHORT).show()
+            startActivity(Intent(this, ServiceListActivity::class.java))
         }
 
+        // Service cards → Service List
         findViewById<View>(R.id.cardRegularWash).setOnClickListener {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_booking_coming_soon), Snackbar.LENGTH_SHORT).show()
+            startActivity(Intent(this, ServiceListActivity::class.java))
         }
-
         findViewById<View>(R.id.cardDryCleaning).setOnClickListener {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_booking_coming_soon), Snackbar.LENGTH_SHORT).show()
+            startActivity(Intent(this, ServiceListActivity::class.java))
         }
-
         findViewById<View>(R.id.cardExpressWash).setOnClickListener {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_booking_coming_soon), Snackbar.LENGTH_SHORT).show()
+            startActivity(Intent(this, ServiceListActivity::class.java))
         }
 
+        // Bottom Navigation
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNav.selectedItemId = R.id.navHome
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navHome -> true
-                R.id.navBookings,
+                R.id.navBookings -> {
+                    startActivity(Intent(this, BookingsActivity::class.java))
+                    finish()
+                    true
+                }
                 R.id.navProfile -> {
-                    Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_tab_coming_soon), Snackbar.LENGTH_SHORT).show()
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false

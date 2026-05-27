@@ -9,9 +9,14 @@
     <color name="error">#DC2626</color>
     <color name="surface_dark">#0F172A</color>
     <color name="background">#F8FAFC</color>
+    <color name="surface_bg">#F8FAFC</color>
     <color name="surface_variant">#F1F5F9</color>
     <color name="text_primary">#0F172A</color>
     <color name="text_secondary">#334155</color>
     <color name="text_muted">#94A3B8</color>
+    <color name="text_hint">#94A3B8</color>
     <color name="surface">#FFFFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="bottom_nav_item_color">@color/bottom_nav_colors</color>
 </resources>
