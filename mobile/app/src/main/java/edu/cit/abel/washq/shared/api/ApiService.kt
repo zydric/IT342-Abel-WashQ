@@ -30,7 +30,7 @@ interface ApiService {
     suspend fun getServices(): Response<ApiEnvelope<List<ServiceDto>>>
 
     // ── Time Slots ──
-    @GET("api/v1/timeslots/available")
+    @GET("api/v1/slots")
     suspend fun getAvailableSlots(
         @Query("date") date: String
     ): Response<ApiEnvelope<List<TimeSlotDto>>>

@@ -99,12 +99,38 @@ class BookingsActivity : BaseActivity() {
     private fun setupInsets() {
         val root = findViewById<View>(R.id.bookingsRoot)
         val bottomNav = findViewById<View>(R.id.bottomNav)
+        val contentFrame = findViewById<View>(R.id.contentFrame)
+        val appBar = findViewById<View>(R.id.appBarLayout)
+
         ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            root.setPadding(0, systemBars.top, 0, 0)
-            bottomNav.setPadding(0, 0, 0, systemBars.bottom)
+
+            appBar.setPadding(
+                appBar.paddingLeft,
+                systemBars.top,
+                appBar.paddingRight,
+                appBar.paddingBottom
+            )
+
+            bottomNav.setPadding(
+                bottomNav.paddingLeft,
+                bottomNav.paddingTop,
+                bottomNav.paddingRight,
+                systemBars.bottom
+            )
+
+            val navHeightPx = (64 * resources.displayMetrics.density).toInt()
+            val extraBottomPx = (16 * resources.displayMetrics.density).toInt()
+            contentFrame.setPadding(
+                contentFrame.paddingLeft,
+                contentFrame.paddingTop,
+                contentFrame.paddingRight,
+                navHeightPx + systemBars.bottom + extraBottomPx
+            )
+
             insets
         }
+        ViewCompat.requestApplyInsets(root)
     }
 }
 

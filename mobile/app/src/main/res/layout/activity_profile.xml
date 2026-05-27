@@ -1,184 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/profileRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/surface_bg">
+    android:background="@color/background">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!-- Top Toolbar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        android:elevation="2dp"
-        app:titleTextColor="@color/text_primary" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="64dp"
-        android:visibility="gone" />
+        android:background="@color/white"
+        app:elevation="0dp">
 
-    <ScrollView
-        android:id="@+id/profileContent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone">
-
-        <LinearLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/text_primary" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Content Container -->
+    <FrameLayout
+        android:id="@+id/contentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:gravity="center_horizontal">
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
-            <!-- Avatar Circle -->
-            <FrameLayout
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_marginBottom="16dp">
+        <ScrollView
+            android:id="@+id/profileContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/circle_bg" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center_horizontal">
+
+                <!-- Avatar Circle -->
+                <FrameLayout
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_marginBottom="16dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/circle_bg" />
+
+                    <TextView
+                        android:id="@+id/tvInitials"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white" />
+
+                </FrameLayout>
 
                 <TextView
-                    android:id="@+id/tvInitials"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="32sp"
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/text_primary" />
 
-            </FrameLayout>
+                <TextView
+                    android:id="@+id/tvRole"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1" />
 
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary" />
-
-            <TextView
-                android:id="@+id/tvRole"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="12sp"
-                android:textColor="@color/primary"
-                android:textStyle="bold"
-                android:letterSpacing="0.1" />
-
-            <!-- Info Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp">
-
-                <LinearLayout
+                <!-- Info Card -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:layout_marginTop="24dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/divider"
+                    app:strokeWidth="1dp"
+                    app:cardBackgroundColor="@color/surface">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="EMAIL"
-                        android:textSize="11sp"
-                        android:textColor="@color/text_hint"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.1" />
-
-                    <TextView
-                        android:id="@+id/tvEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textSize="15sp"
-                        android:textColor="@color/text_primary" />
-
-                    <View
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider"
-                        android:layout_marginVertical="16dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CONTACT"
-                        android:textSize="11sp"
-                        android:textColor="@color/text_hint"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.1" />
+                        android:orientation="vertical"
+                        android:padding="24dp">
 
-                    <TextView
-                        android:id="@+id/tvContact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textSize="15sp"
-                        android:textColor="@color/text_primary" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EMAIL"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_hint"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider"
-                        android:layout_marginVertical="16dp" />
+                        <TextView
+                            android:id="@+id/tvEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/text_primary" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ADDRESS"
-                        android:textSize="11sp"
-                        android:textColor="@color/text_hint"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.1" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider"
+                            android:layout_marginVertical="16dp" />
 
-                    <TextView
-                        android:id="@+id/tvAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:textSize="15sp"
-                        android:textColor="@color/text_primary" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CONTACT"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_hint"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvContact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/text_primary" />
 
-            </com.google.android.material.card.MaterialCardView>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider"
+                            android:layout_marginVertical="16dp" />
 
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="32dp"
-                android:text="SIGN OUT"
-                android:textStyle="bold"
-                android:backgroundTint="@color/error"
-                app:cornerRadius="12dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ADDRESS"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_hint"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.1" />
 
-        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textSize="15sp"
+                            android:textColor="@color/text_primary" />
 
-    </ScrollView>
+                    </LinearLayout>
 
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Clean Styled Sign Out Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogout"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="32dp"
+                    android:text="SIGN OUT"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/error"
+                    app:cornerRadius="28dp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+    </FrameLayout>
+
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/surface_dark"
-        app:itemIconTint="@color/bottom_nav_item_color"
-        app:itemTextColor="@color/bottom_nav_item_color"
-        app:menu="@menu/bottom_nav_menu" />
+        android:minHeight="64dp"
+        android:layout_gravity="bottom"
+        android:background="@color/surface"
+        android:elevation="16dp"
+        app:itemIconTint="@color/bottom_nav_colors"
+        app:itemTextColor="@color/bottom_nav_colors"
+        app:itemActiveIndicatorStyle="@style/TransparentIndicator"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_customer_menu" />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
