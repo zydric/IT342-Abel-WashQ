@@ -103,6 +103,12 @@
 			<artifactId>google-api-client</artifactId>
 			<version>2.7.2</version>
 		</dependency>
+
+		<!-- SMTP Email -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

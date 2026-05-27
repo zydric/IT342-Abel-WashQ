@@ -7,10 +7,12 @@ import com.google.api.client.json.gson.GsonFactory;
 import edu.cit.abel.washq.feature.user.User;
 import edu.cit.abel.washq.feature.user.UserDTO;
 import edu.cit.abel.washq.feature.user.UserRepository;
+import edu.cit.abel.washq.shared.email.EmailService;
 import edu.cit.abel.washq.shared.exception.DuplicateResourceException;
 import edu.cit.abel.washq.shared.exception.InvalidCredentialsException;
 import edu.cit.abel.washq.shared.exception.ResourceNotFoundException;
 import edu.cit.abel.washq.shared.security.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+
+    @Autowired(required = false)
+    private EmailService emailService;
 
     @Value("${google.client.id:}")
     private String googleClientId;
@@ -55,6 +60,11 @@ public class AuthService {
         user.setRole("CUSTOMER");
 
         User savedUser = userRepository.save(user);
+
+        // Send welcome email asynchronously
+        if (emailService != null) {
+            emailService.sendWelcomeEmail(savedUser.getEmail(), savedUser.getFirstName());
+        }
 
         String token = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole());
 

@@ -9,7 +9,9 @@ import edu.cit.abel.washq.feature.timeslot.TimeSlotRepository;
 import edu.cit.abel.washq.feature.user.User;
 import edu.cit.abel.washq.feature.user.UserDTO;
 import edu.cit.abel.washq.feature.user.UserRepository;
+import edu.cit.abel.washq.shared.email.EmailService;
 import edu.cit.abel.washq.shared.exception.BookingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,9 @@ public class BookingService {
     private final UserRepository userRepository;
     private final ServiceRepository serviceRepository;
     private final TimeSlotRepository timeSlotRepository;
+
+    @Autowired(required = false)
+    private EmailService emailService;
 
     public BookingService(BookingRepository bookingRepository,
                           UserRepository userRepository,
@@ -83,6 +88,18 @@ public class BookingService {
         // Map to ResponseDTO
         BookingResponseDTO response = mapToDTO(booking);
 
+        // Send booking confirmation email
+        if (emailService != null) {
+            emailService.sendBookingConfirmation(
+                    user.getEmail(),
+                    user.getFirstName(),
+                    service.getName(),
+                    timeSlot.getSlotDate().format(DATE_FMT),
+                    timeSlot.getStartTime().format(TIME_FMT) + " - " + timeSlot.getEndTime().format(TIME_FMT),
+                    totalAmount.toPlainString()
+            );
+        }
+
         // Mock PayMongo URL for now
         response.setPaymentUrl("https://paymongo.com/checkout/mock_url_" + booking.getId());
 
@@ -126,9 +143,16 @@ public class BookingService {
         booking.setStatus(newStatus);
         booking = bookingRepository.save(booking);
 
-        // Mock sending email
+        // Send order-ready email notification
         if ("READY_FOR_PICKUP".equals(newStatus)) {
-            System.out.println("Email Sent: Your order is ready for pickup! to " + booking.getUser().getEmail());
+            if (emailService != null) {
+                emailService.sendOrderReadyEmail(
+                        booking.getUser().getEmail(),
+                        booking.getUser().getFirstName(),
+                        booking.getService().getName(),
+                        booking.getId()
+                );
+            }
         }
 
         return mapToDTO(booking);
