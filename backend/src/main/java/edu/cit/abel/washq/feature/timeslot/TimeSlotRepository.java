@@ -14,4 +14,9 @@ public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
      * ordered by start time ascending.
      */
     List<TimeSlot> findBySlotDateAndIsAvailableTrueOrderByStartTimeAsc(LocalDate slotDate);
+
+    /**
+     * Count slots from a given date onwards (used by DataSeeder).
+     */
+    long countBySlotDateGreaterThanEqual(LocalDate date);
 }
