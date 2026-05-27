@@ -26,6 +26,15 @@ import edu.cit.abel.washq.feature.auth.viewmodel.AuthViewModel
 import edu.cit.abel.washq.feature.auth.viewmodel.AuthViewModelFactory
 import edu.cit.abel.washq.shared.ui.BaseActivity
 import edu.cit.abel.washq.feature.dashboard.ui.DashboardActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import edu.cit.abel.washq.feature.auth.model.GoogleAuthRequest
 
 class LoginActivity : BaseActivity() {
 
@@ -35,6 +44,9 @@ class LoginActivity : BaseActivity() {
     private lateinit var etPassword: TextInputEditText
     private lateinit var btnLogin: MaterialButton
     private lateinit var pbLogin: View
+
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private val RC_SIGN_IN = 9001
 
     private val viewModel: AuthViewModel by viewModels {
         AuthViewModelFactory(AuthRepository(RetrofitClient.apiService))
@@ -76,8 +88,16 @@ class LoginActivity : BaseActivity() {
             Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_feature_coming_soon), Snackbar.LENGTH_SHORT).show()
         }
 
+        // Initialize Google Sign-In options
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.google_client_id))
+            .requestEmail()
+            .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
         findViewById<View>(R.id.btnGoogleLogin).setOnClickListener {
-            Snackbar.make(findViewById(android.R.id.content), getString(R.string.msg_feature_coming_soon), Snackbar.LENGTH_SHORT).show()
+            val signInIntent = mGoogleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
         }
     }
 
@@ -233,5 +253,62 @@ class LoginActivity : BaseActivity() {
         val imm = getSystemService<InputMethodManager>() ?: return
         val target = currentFocus ?: window.decorView
         imm.hideSoftInputFromWindow(target.windowToken, 0)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            val idToken = account.idToken
+            if (idToken != null) {
+                loginWithGoogle(idToken)
+            } else {
+                Snackbar.make(findViewById(android.R.id.content), "Google Login Failed: Missing ID Token", Snackbar.LENGTH_LONG).show()
+            }
+        } catch (e: ApiException) {
+            val statusCode = e.statusCode
+            Snackbar.make(findViewById(android.R.id.content), "Google Login Failed (Code: $statusCode)", Snackbar.LENGTH_LONG).show()
+        }
+    }
+
+    private fun loginWithGoogle(idToken: String) {
+        showLoading(true)
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.apiService.googleLogin(GoogleAuthRequest(idToken))
+                if (response.isSuccessful && response.body()?.success == true) {
+                    showLoading(false)
+                    val payload = response.body()!!.data
+                    if (payload != null) {
+                        SecurePrefsManager.saveAuthSession(
+                            context = applicationContext,
+                            token = payload.accessToken,
+                            userId = payload.user.id,
+                            userEmail = payload.user.email,
+                            userFirstName = payload.user.firstName
+                        )
+                        val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    } else {
+                        Snackbar.make(findViewById(android.R.id.content), "Invalid response data from server", Snackbar.LENGTH_LONG).show()
+                    }
+                } else {
+                    showLoading(false)
+                    val errorMsg = response.errorBody()?.string() ?: "Google sign-in verification failed"
+                    Snackbar.make(findViewById(android.R.id.content), errorMsg, Snackbar.LENGTH_LONG).show()
+                }
+            } catch (e: Exception) {
+                showLoading(false)
+                Snackbar.make(findViewById(android.R.id.content), "Network error: ${e.message}", Snackbar.LENGTH_LONG).show()
+            }
+        }
     }
 }

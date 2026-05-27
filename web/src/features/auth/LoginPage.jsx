@@ -83,10 +83,25 @@ export default function LoginPage() {
     script.defer = true;
     script.onload = () => {
       if (window.google) {
+        console.log("Loaded Google Client ID:", import.meta.env.VITE_GOOGLE_CLIENT_ID);
         window.google.accounts.id.initialize({
           client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID || '',
           callback: handleGoogleCredential,
+          use_fedcm: false,
         });
+
+        // Native Google Sign-In Button rendering
+        window.google.accounts.id.renderButton(
+          document.getElementById('googleSignInButton'),
+          { 
+            theme: 'outline', 
+            size: 'large', 
+            width: 384, // Exact width match for your login container
+            shape: 'rectangular',
+            text: 'signin_with',
+            logo_alignment: 'left'
+          }
+        );
       }
     };
     document.body.appendChild(script);
@@ -246,21 +261,10 @@ export default function LoginPage() {
             <div className="flex-1 h-px bg-neutral-100" />
           </div>
 
-          {/* Google OAuth */}
-          <button
-            type="button"
-            disabled={googleLoading || loading}
-            onClick={() => {
-              if (window.google) {
-                window.google.accounts.id.prompt();
-              } else {
-                setErrorMsg('Google Sign-In is not available. Please try again later.');
-              }
-            }}
-            className="w-full flex items-center justify-center gap-2 border border-[#CBD5E1] rounded-btn py-2.5 text-body font-medium text-neutral-700 bg-white hover:bg-neutral-50 transition-btn disabled:opacity-60"
-          >
-            {googleLoading ? <Spinner /> : <><GoogleIcon /> Continue with Google</>}
-          </button>
+          {/* Google OAuth (Native container div) */}
+          <div className="w-full flex justify-center">
+            <div id="googleSignInButton" className="w-full"></div>
+          </div>
 
           {/* Register link */}
           <p className="text-center text-body text-neutral-400 mt-6">

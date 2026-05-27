@@ -25,6 +25,11 @@ interface ApiService {
         @Body request: LoginRequest
     ): Response<ApiEnvelope<AuthResponse>>
 
+    @POST("auth/google")
+    suspend fun googleLogin(
+        @Body request: edu.cit.abel.washq.feature.auth.model.GoogleAuthRequest
+    ): Response<ApiEnvelope<AuthResponse>>
+
     // ── Services Catalog ──
     @GET("api/v1/services")
     suspend fun getServices(): Response<ApiEnvelope<List<ServiceDto>>>

@@ -70,4 +70,7 @@ dependencies {
 
     // Encrypted storage for JWT/session data
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
+    // Google Play Services Auth for Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 }

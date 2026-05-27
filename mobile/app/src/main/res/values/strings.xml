@@ -96,4 +96,7 @@
     <string name="nav_home">Home</string>
     <string name="nav_bookings">My Bookings</string>
     <string name="nav_profile">Profile</string>
+
+    <!-- Configure Google OAuth Web Client ID here -->
+    <string name="google_client_id">432545791201-lpirhkgl94gnm3j7240vsdcptnbp9ngp.apps.googleusercontent.com</string>
 </resources>
