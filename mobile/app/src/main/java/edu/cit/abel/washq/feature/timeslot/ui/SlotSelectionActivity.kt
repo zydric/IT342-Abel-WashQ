@@ -99,7 +99,7 @@ class SlotSelectionActivity : BaseActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.getInstance(applicationContext).getAvailableSlots(date)
+                val response = RetrofitClient.apiService.getAvailableSlots(date)
                 if (response.isSuccessful) {
                     val slots = response.body()?.data ?: emptyList()
                     if (slots.isEmpty()) {

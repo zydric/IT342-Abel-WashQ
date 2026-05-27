@@ -82,7 +82,7 @@ class BookingConfirmActivity : BaseActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val response = RetrofitClient.getInstance(applicationContext).createBooking(request)
+                    val response = RetrofitClient.apiService.createBooking(request)
                     if (response.isSuccessful) {
                         MaterialAlertDialogBuilder(this@BookingConfirmActivity)
                             .setTitle("Booking Confirmed! ✅")

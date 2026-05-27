@@ -52,7 +52,7 @@ class ServiceListActivity : BaseActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.getInstance(applicationContext).getServices()
+                val response = RetrofitClient.apiService.getServices()
                 if (response.isSuccessful) {
                     val services = response.body()?.data ?: emptyList()
                     val active = services.filter { it.isActive }

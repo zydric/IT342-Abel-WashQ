@@ -55,7 +55,7 @@ class BookingsActivity : BaseActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.getInstance(applicationContext).getBookings()
+                val response = RetrofitClient.apiService.getBookings()
                 if (response.isSuccessful) {
                     val bookings = response.body()?.data ?: emptyList()
                     if (bookings.isEmpty()) {

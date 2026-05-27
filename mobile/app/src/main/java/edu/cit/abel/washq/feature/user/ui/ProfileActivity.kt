@@ -46,7 +46,7 @@ class ProfileActivity : BaseActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.getInstance(applicationContext).getProfile()
+                val response = RetrofitClient.apiService.getProfile()
                 if (response.isSuccessful) {
                     val user = response.body()?.data
                     if (user != null) {
@@ -83,7 +83,7 @@ class ProfileActivity : BaseActivity() {
                 .setTitle("Sign Out")
                 .setMessage("Are you sure you want to sign out?")
                 .setPositiveButton("Sign Out") { _, _ ->
-                    SecurePrefsManager.clearAll(applicationContext)
+                    SecurePrefsManager.clearAuthSession(applicationContext)
                     val intent = Intent(this, LoginActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
